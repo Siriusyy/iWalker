@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">iWalker</string>
+    <string name="title_activity_map">MapActivity</string>
 </resources>
