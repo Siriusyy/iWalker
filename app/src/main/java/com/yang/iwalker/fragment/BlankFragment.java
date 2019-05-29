@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.xuexiang.xui.utils.SnackbarUtils;
+import com.xuexiang.xui.widget.actionbar.TitleUtils;
 import com.xuexiang.xui.widget.searchview.MaterialSearchView;
 import com.yang.iwalker.R;
 
@@ -51,27 +52,26 @@ public class BlankFragment extends Fragment {
         }
 
 
+
     }
 
+    private View rootView;
 
+    View getRootView() {
+        return rootView;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_blank, container, false);
+        rootView = inflater.inflate(R.layout.fragment_blank, container, false);
         TextView contentTv = rootView.findViewById(R.id.content_tv);
         contentTv.setText(mContentText);
 
 
         return rootView;
     }
-
-
-
-
-
-
 
 
 
