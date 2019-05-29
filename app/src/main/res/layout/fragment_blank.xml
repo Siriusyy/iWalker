@@ -6,31 +6,6 @@
     android:layout_height="match_parent"
     tools:context="fragment.BlankFragment">
 
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <SearchView
-            android:id="@+id/searchView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|top"
-            android:gravity="center_horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="搜索"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/searchView"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="visible" />
-    </android.support.constraint.ConstraintLayout>
-
     <TextView
         android:id="@+id/content_tv"
         android:layout_width="wrap_content"
