@@ -7,10 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.xuexiang.xui.utils.SnackbarUtils;
-import com.xuexiang.xui.widget.dialog.bottomsheet.BottomSheet;
 import com.xuexiang.xui.widget.searchview.MaterialSearchView;
 import com.yang.iwalker.R;
 import com.yang.iwalker.dialog.BottomDialog;
@@ -55,7 +53,7 @@ public class MapFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mSearchView = getActivity().findViewById(R.id.search_view);
+        mSearchView = getActivity().findViewById(R.id.navi_search);
         initViews();
 
         getActivity().findViewById(R.id.fab).setOnClickListener((view) ->

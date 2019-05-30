@@ -3,20 +3,15 @@ package com.yang.iwalker.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.xuexiang.xui.utils.SnackbarUtils;
-import com.xuexiang.xui.widget.actionbar.TitleUtils;
 import com.xuexiang.xui.widget.searchview.MaterialSearchView;
 import com.yang.iwalker.R;
+import com.yang.iwalker.dialog.BottomDialog;
 
 public class BlankFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -69,10 +64,8 @@ public class BlankFragment extends Fragment {
         TextView contentTv = rootView.findViewById(R.id.content_tv);
         contentTv.setText(mContentText);
 
-
         return rootView;
     }
-
 
 
 }

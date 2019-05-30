@@ -38,7 +38,7 @@
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" /> <!-- <activity android:name=".MainActivity"> -->
-        <activity android:name=".TestActivity">
+        <activity android:name=".TestActivity" android:windowSoftInputMode="adjustPan|stateHidden">
 
         </activity>
     </application>
