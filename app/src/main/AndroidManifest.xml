@@ -19,6 +19,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/XUITheme.Phone">
+        <activity android:name=".FriendInfoActivity"></activity>
         <activity android:name=".GuideActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,9 +39,9 @@
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" /> <!-- <activity android:name=".MainActivity"> -->
-        <activity android:name=".TestActivity" android:windowSoftInputMode="adjustPan|stateHidden">
-
-        </activity>
+        <activity
+            android:name=".TestActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
     </application>
 
 </manifest>

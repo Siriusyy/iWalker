@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingTop="3dp">
 
     <RadioButton
-        android:id="@+id/radioButton2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/radio_like"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_marginTop="6dp"
         android:layout_marginEnd="18dp"
-        app:layout_constraintEnd_toStartOf="@+id/radioButton"
+        android:button="@null"
+        android:drawableTop="@drawable/radio_like_selector"
+        app:layout_constraintEnd_toStartOf="@+id/ic_comments"
         app:layout_constraintTop_toBottomOf="@+id/editText7" />
 
     <TextView
@@ -23,7 +25,7 @@
         android:text="999"
         android:textSize="12sp"
         app:layout_constraintEnd_toStartOf="@+id/textView10"
-        app:layout_constraintTop_toBottomOf="@+id/radioButton" />
+        app:layout_constraintTop_toBottomOf="@+id/ic_comments" />
 
     <TextView
         android:id="@+id/textView12"
@@ -33,7 +35,7 @@
         android:text="999"
         android:textSize="12sp"
         app:layout_constraintEnd_toStartOf="@+id/textView11"
-        app:layout_constraintTop_toBottomOf="@+id/radioButton2" />
+        app:layout_constraintTop_toBottomOf="@+id/radio_like" />
 
     <TextView
         android:id="@+id/textView"
@@ -51,9 +53,13 @@
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_marginTop="16dp"
+        android:background="@android:drawable/edit_text"
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine"
+        android:maxLines="10"
+        android:minLines="8"
+        android:scrollbars="vertical"
         app:layout_constraintTop_toBottomOf="@+id/textView8"
         tools:layout_editor_absoluteX="32dp" />
 
@@ -87,23 +93,25 @@
         android:text="999"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioButton5" />
+        app:layout_constraintTop_toBottomOf="@+id/ic_forward" />
 
-    <RadioButton
-        android:id="@+id/radioButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/ic_comments"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_marginTop="6dp"
         android:layout_marginEnd="18dp"
-        app:layout_constraintEnd_toStartOf="@+id/radioButton5"
+        android:src="@mipmap/ic_comments"
+        app:layout_constraintEnd_toStartOf="@+id/ic_forward"
         app:layout_constraintTop_toBottomOf="@+id/editText7" />
 
-    <RadioButton
-        android:id="@+id/radioButton5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/ic_forward"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_marginTop="6dp"
         android:layout_marginEnd="26dp"
+        android:src="@mipmap/ic_forward"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText7" />
 </android.support.constraint.ConstraintLayout>
