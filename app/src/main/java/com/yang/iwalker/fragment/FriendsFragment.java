@@ -1,9 +1,13 @@
 package com.yang.iwalker.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.service.autofill.Dataset;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +17,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xuexiang.xui.widget.actionbar.TitleBar;
+import com.yang.iwalker.FriendInfoActivity;
 import com.yang.iwalker.R;
+import com.yang.iwalker.adapter.FriendsAdapter;
+import com.yang.iwalker.adapter.HomeAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FriendsFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -83,6 +93,43 @@ public class FriendsFragment extends Fragment {
                 Toast.makeText(getContext(),"添加好友",Toast.LENGTH_SHORT).show();
             }
         });
+
+        RecyclerView recycle = getActivity().findViewById(R.id.recycle_friends);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recycle.setLayoutManager(layoutManager);
+        List<String> datas=new ArrayList<String>();
+        datas.add("蔡徐坤");
+        datas.add("蔡徐坤");
+        datas.add("蔡徐坤");
+        datas.add("蔡徐坤");
+        datas.add("蔡徐坤");
+        datas.add("蔡徐坤");
+        datas.add("蔡徐坤");
+        datas.add("蔡徐坤");
+        datas.add("蔡徐坤");
+        datas.add("蔡徐坤");
+        datas.add("蔡徐坤");
+        datas.add("蔡徐坤");
+        datas.add("蔡徐坤");
+        datas.add("蔡徐坤");
+        datas.add("蔡徐坤");
+        datas.add("蔡徐坤");
+        datas.add("蔡徐坤");
+        datas.add("蔡徐坤");
+        datas.add("蔡徐坤");
+
+        FriendsAdapter adatper=new FriendsAdapter(datas);
+        adatper.setAct(new FriendsAdapter.Act1() {
+            @Override
+            public void click() {
+                Intent intent=new Intent(getContext(), FriendInfoActivity.class);
+                startActivity(intent);
+            }
+        });
+        recycle.setAdapter(adatper);
+
+
+
     }
 
 

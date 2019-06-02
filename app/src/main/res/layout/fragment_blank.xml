@@ -88,9 +88,13 @@
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
             tools:layout_editor_absoluteX="0dp">
 
+            <!--装载lit_home.xml-->
             <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycle_home"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/xui_config_color_gray_7"
+                android:scrollbars="vertical"
                 tools:layout_editor_absoluteY="313dp" />
         </android.support.constraint.ConstraintLayout>
 

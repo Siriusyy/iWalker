@@ -13,6 +13,7 @@ public class FriendInfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_info);
+        /*沉浸式状态栏*/
         StatusBarUtils.translucent(this);
         View view = findViewById(R.id.text_del);
         view.setOnClickListener(new View.OnClickListener() {
