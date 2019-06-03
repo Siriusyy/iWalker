@@ -20,7 +20,7 @@
                 android:background="@color/xui_config_color_gray_8"/>
 
 
-            <com.yang.iwalker.view.CircleImageView
+            <com.xuexiang.xui.widget.imageview.RadiusImageView
                 android:id="@+id/user_image"
                 android:layout_width="90dp"
                 android:layout_height="90dp"
