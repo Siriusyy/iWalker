@@ -9,14 +9,7 @@
         android:layout_alignParentTop="true"
         android:background="@color/xui_config_color_white"
         android:gravity="center">
-        <ImageView
-            android:id="@+id/back"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/return_64px"
-            />
+
 
         <TextView
             android:id="@+id/publish_title"
@@ -26,6 +19,14 @@
             android:gravity="center"
             android:textColor="@color/xui_config_color_black"
             android:text="帮助与反馈" />
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/return_64px"
+            />
     </RelativeLayout>
     <!-- 显示图片 -->
     <RelativeLayout
