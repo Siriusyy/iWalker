@@ -16,17 +16,23 @@
             android:id="@+id/self_page">
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="230dp"
+                android:layout_height="200dp"
                 android:background="@drawable/bg_blue"/>
 
 
             <com.xuexiang.xui.widget.imageview.RadiusImageView
                 android:id="@+id/user_image"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="30dp"
                 android:src="@drawable/default_avatar"
+                app:riv_border_color="@color/xui_config_color_gray_6"
+                app:riv_border_width="1px"
+                app:riv_is_circle="true"
+                app:riv_selected_border_color="@color/xui_config_color_gray_4"
+                app:riv_selected_border_width="1px"
+                app:riv_selected_mask_color="@color/xui_config_color_gray_8"
                 />
             <TextView
                 android:id="@+id/user_name"
@@ -34,17 +40,17 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/user_image"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="45dp"
+                android:layout_marginTop="35dp"
                 android:text="用户名"
                 android:textColor="@android:color/black"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
             <TextView
                 android:id="@+id/user_gender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/user_image"
                 android:layout_marginLeft="25dp"
-                android:layout_marginTop="90dp"
+                android:layout_marginTop="70dp"
                 android:text="性别"
                 android:textColor="@android:color/black"
                 android:textSize="14sp" />
@@ -54,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="150dp"
+                android:layout_marginTop="120dp"
                 android:text="签名"
                 android:layout_toLeftOf="@+id/change_data"
                 android:textColor="@android:color/darker_gray"
@@ -64,7 +70,7 @@
                 android:layout_width="110dp"
                 android:layout_height="40dp"
                 android:layout_alignParentRight="true"
-                android:layout_marginTop="160dp"
+                android:layout_marginTop="130dp"
                 android:layout_marginRight="10dp"
                 android:text="编辑资料"
                 android:textColor="@android:color/black"
@@ -76,7 +82,7 @@
                 android:id="@+id/user_footprint"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
-                android:layout_marginTop="260dp"
+                android:layout_marginTop="220dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
                 android:drawableLeft="@drawable/img_foot_24px"
@@ -85,13 +91,13 @@
                 android:textColor="@android:color/black"
                 android:gravity="center_vertical"
                 android:drawablePadding="10dip"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 android:background="@color/colorSelf"/>
             <Button
                 android:id="@+id/user_notice"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
-                android:layout_marginTop="330dp"
+                android:layout_marginTop="280dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
                 android:drawableLeft="@drawable/img_user_notice_24px"
@@ -100,13 +106,13 @@
                 android:textColor="@android:color/black"
                 android:gravity="center_vertical"
                 android:drawablePadding="10dip"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 android:background="@color/colorSelf"/>
             <Button
                 android:id="@+id/help_feedback"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
-                android:layout_marginTop="400dp"
+                android:layout_marginTop="340dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
                 android:drawableLeft="@drawable/img_help_24px"
@@ -115,7 +121,7 @@
                 android:textColor="@android:color/black"
                 android:gravity="center_vertical"
                 android:drawablePadding="10dip"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 android:background="@color/colorSelf"/>
 
 
