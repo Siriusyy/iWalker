@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="fragment.SelfFragment">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/xui_config_color_white"
+            android:id="@+id/self_page">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:background="@color/xui_config_color_gray_8"/>
+
+
+            <com.yang.iwalker.view.CircleImageView
+                android:id="@+id/user_image"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="40dp"
+                android:src="@drawable/default_avatar"
+                />
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/user_image"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="45dp"
+                android:text="用户名"
+                android:textColor="@android:color/black"
+                android:textSize="25sp" />
+            <TextView
+                android:id="@+id/user_gender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/user_image"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="90dp"
+                android:text="性别"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/user_signature"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="170dp"
+                android:text="签名"
+                android:layout_toLeftOf="@+id/change_data"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="20sp" />
+            <Button
+                android:id="@+id/change_data"
+                android:layout_width="130dp"
+                android:layout_height="50dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="170dp"
+                android:layout_marginRight="10dp"
+                android:text="编辑资料"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                android:background="@drawable/bg_defualt_button"/>
+
+
+            <Button
+                android:id="@+id/user_footprint"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="260dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:drawableLeft="@drawable/img_foot_24px"
+                android:paddingLeft="10dip"
+                android:text="我的足迹"
+                android:textColor="@android:color/black"
+                android:gravity="center_vertical"
+                android:drawablePadding="10dip"
+                android:textSize="20sp"
+                android:background="@color/colorSelf"/>
+            <Button
+                android:id="@+id/user_notice"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="330dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:drawableLeft="@drawable/img_user_notice_24px"
+                android:paddingLeft="10dip"
+                android:text="通知"
+                android:textColor="@android:color/black"
+                android:gravity="center_vertical"
+                android:drawablePadding="10dip"
+                android:textSize="20sp"
+                android:background="@color/colorSelf"/>
+            <Button
+                android:id="@+id/help_feedback"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="400dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:drawableLeft="@drawable/img_help_24px"
+                android:paddingLeft="10dip"
+                android:text="帮助与反馈"
+                android:textColor="@android:color/black"
+                android:gravity="center_vertical"
+                android:drawablePadding="10dip"
+                android:textSize="20sp"
+                android:background="@color/colorSelf"/>
+
+
+        </RelativeLayout>
+
+
+    </android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/content_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="hello_blank_fragment"
+        android:textColor="@android:color/black"
+        android:textSize="24sp" />
+
+
+
+</FrameLayout>

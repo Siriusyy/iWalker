@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!-- 顶部添加文字 -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/xui_config_color_white"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/back"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:text="取消"
+            android:textColor="@color/xui_config_color_black"
+            android:layout_marginLeft="5dp"
+            />
+
+        <TextView
+            android:id="@+id/publish_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:textColor="@color/xui_config_color_black"
+            android:text="发布足迹" />
+        <Button
+            android:id="@+id/publish"
+            android:layout_width="70dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:textColor="@color/xui_config_color_black"
+            android:background="@drawable/publish_button"
+            android:text="发表"
+            />
+    </RelativeLayout>
+    <!-- 显示图片 -->
+    <RelativeLayout
+        android:id="@+id/Content_Layout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <EditText
+            android:id="@+id/publish_text"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:layout_marginTop="60dp"
+            android:background="@color/xui_config_color_white"
+            android:gravity="top"
+            android:hint="分享新鲜事"
+            android:maxLines="6"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/publish_img"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="235dp"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:scaleType="center"
+            android:src="@drawable/photo_camera_72px"
+            android:background="@color/xui_config_color_gray_8"/>
+        <TextView
+            android:id="@+id/local_infor"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="375dp"
+            android:layout_width="100dp"
+            android:layout_height="25dp"
+            android:text="地点"
+            android:textSize="15dp"
+            android:paddingLeft="5dip"
+            android:gravity="center"
+            android:drawableLeft="@drawable/img_local_16px"
+            android:background="@color/xui_config_color_gray_8"/>
+
+        <ImageView
+            android:id="@+id/at_img"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="350dp"
+            android:src="@drawable/img_at_48px"
+            />
+    </RelativeLayout>
+</RelativeLayout>
