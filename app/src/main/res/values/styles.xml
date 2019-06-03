@@ -30,4 +30,13 @@
         <item name="android:textColor">@color/xui_config_color_gray_2</item>
     </style>
 
+    <style name="NoActionBar" parent="XUITheme.Phone">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
 </resources>

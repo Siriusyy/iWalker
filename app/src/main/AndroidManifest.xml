@@ -19,7 +19,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/XUITheme.Phone">
-        <activity android:name=".FriendInfoActivity"></activity>
+        <activity
+            android:name=".CommentActivity"
+            android:label="@string/title_activity_comment"
+            android:theme="@style/NoActionBar"></activity>
+        <activity android:name=".FriendInfoActivity" />
         <activity android:name=".GuideActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,7 +45,7 @@
             android:process=":remote" /> <!-- <activity android:name=".MainActivity"> -->
         <activity
             android:name=".TestActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
+            android:windowSoftInputMode="adjustPan|stateHidden" />
     </application>
 
 </manifest>
