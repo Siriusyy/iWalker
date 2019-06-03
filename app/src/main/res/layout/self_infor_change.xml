@@ -97,7 +97,7 @@
             android:text="昵称"
             android:gravity="center"
             android:textSize="20sp" />
-        <TextView
+        <EditText
             android:id="@+id/user_nickname_now"
             android:layout_width="match_parent"
             android:layout_height="60dp"
@@ -115,15 +115,38 @@
             android:text="性别"
             android:gravity="center"
             android:textSize="20sp" />
-        <TextView
+
+        <RadioGroup
             android:id="@+id/user_gender_now"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginTop="200dp"
+            android:orientation="horizontal"
             android:background="@color/xui_config_color_white"
             android:gravity="left"
             android:layout_toRightOf="@+id/user_gender_text"
-            android:textSize="20sp" />
+            android:textSize="20sp">
+            <RadioButton
+                android:id="@+id/user_gender_woman"
+                android:layout_width="60dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/xui_config_color_white"
+                android:gravity="left|center"
+                android:text="女"
+
+                android:textSize="20sp" />
+            <RadioButton
+                android:id="@+id/user_gender_man"
+                android:layout_width="60dp"
+                android:layout_height="50dp"
+                android:background="@color/xui_config_color_white"
+                android:gravity="left|center"
+                android:layout_marginTop="5dp"
+                android:text="男"
+
+                android:textSize="20sp" />
+        </RadioGroup>
 
         <TextView
             android:id="@+id/user_password_text"
@@ -134,7 +157,7 @@
             android:text="新密码"
             android:gravity="center"
             android:textSize="20sp" />
-        <TextView
+        <EditText
             android:id="@+id/user_password_now"
             android:layout_width="match_parent"
             android:layout_height="60dp"
@@ -154,7 +177,7 @@
             android:text="重复密码"
             android:gravity="center"
             android:textSize="20sp" />
-        <TextView
+        <EditText
             android:id="@+id/user_repassword_now"
             android:layout_width="match_parent"
             android:layout_height="60dp"
