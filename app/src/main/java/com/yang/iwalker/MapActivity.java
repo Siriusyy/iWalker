@@ -3,127 +3,240 @@ package com.yang.iwalker;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.Toast;
+import android.support.v7.widget.SearchView;
+import android.widget.ListView;
 
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
-import com.baidu.mapapi.map.MyLocationConfiguration;
-import com.baidu.mapapi.map.MyLocationConfiguration.LocationMode;
+import com.baidu.mapapi.map.Marker;
+import com.baidu.mapapi.map.MarkerOptions;
+import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.search.sug.SuggestionSearch;
 
 public class MapActivity extends AppCompatActivity {
 
     private MapView mMap = null;	//百度地图控件,专门显示地图用的控件
-    private BaiduMap bdMap;			//百度地图对象,抽象的地图对象
-    private LocationMode currentMode;	//定位模式
     public LocationClient locClient = null;
-    private boolean isFirstLoc = true;	//记录是否第一次定位
+    private boolean loc_myself = true;
+    private BaiduMap bdMap;
+
+    int signal = 0;
+    LocationInfo locinfo;
+    private SearchView searchView;
+    private ListView searchList2;
+    private SuggestionSearch suggestionSearch;
+    String city;
+    LatLng self_position;
+    Marker marker;
+    //SugAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map_layout);
-        initMap();										//初始化百度地图
-        initButton();                           //初始化按钮
-    }
-    private void initMap() {
-
-        mMap = (MapView) findViewById(R.id.map_view);
-        //bitmap = BitmapDescriptorFactory.fromResource(R.drawable.icon_openmap_mark);
-        MapStatusUpdate msu = MapStatusUpdateFactory.zoomTo(14.0f);	//定义地图状态
-        mMap.showScaleControl(false); 						//隐藏比例尺
-        mMap.showZoomControls(false); 						//隐藏缩放控件																							1
-        View child = this.mMap.getChildAt(1);
-        if(child != null && (child instanceof ImageView)) {
-            child.setVisibility(View.INVISIBLE);
-        }													//隐藏baidu-logo
-        bdMap = mMap.getMap();								//获得地图对象
-        bdMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);		    //普通地图
-        bdMap.setMapStatus(msu); 							//设置地图初始状态
-        currentMode = LocationMode.FOLLOWING;				//当前定位模式为：普通
-        bdMap.setMyLocationEnabled(true);					//开启定位图层
-        bdMap.setTrafficEnabled(true); 					//开启交通图
-        bdMap.setMyLocationConfiguration(new MyLocationConfiguration(currentMode, true, null));
-        locClient = new LocationClient(getApplicationContext());	        //定位服务的客户端
-        //BDLocationListener listener = new MyLocationListener();
-        locClient.registerLocationListener(listener);	//注册监听函数
-        initoption();
-        locClient.start();					//启动定位
-    }
-    private void initoption() {
-        LocationClientOption option = new LocationClientOption();	//配置LocationClient这个定位客户端的定位参数
-        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);//设置定位模式，高精度，低功耗，仅设备
-        option.setOpenGps(true);			//打开gps
-        option.setCoorType("bd09ll");		//设置坐标类型
-        option.setIsNeedAddress(true);		//设置是否需要地址信息，默认不需要
-        option.setScanSpan(1300);				//1s后定位
-        option.setLocationNotify(true);
-        option.setIgnoreKillProcess(true);
-        option.setNeedDeviceDirect(true); 	//返回的定位结果包含手机机头方向
-        locClient.setLocOption(option);		//配置客户端
-
-    }
-
-    private BDLocationListener listener = new BDLocationListener(){
-        @Override
-        public void onReceiveLocation(BDLocation location) {
-            if(mMap == null || location == null)
-                return;
-            if (location.getLocType() == BDLocation.TypeServerError) {
-                Toast.makeText(MapActivity.this, "服务器错误，请检查", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            else if (location.getLocType() == BDLocation.TypeNetWorkException) {
-                Toast.makeText(MapActivity.this, "网络错误，请检查", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            else if (location.getLocType() == BDLocation.TypeCriteriaException) {
-                Toast.makeText(MapActivity.this, "手机模式错误，请检查是否飞行", Toast.LENGTH_SHORT).show();
-                return;
+        Intent intent = getIntent();
+        if(intent != null){
+            Bundle bundle = intent.getExtras();
+            if(bundle!=null){
+                signal = 1;
+                locinfo = new LocationInfo();
+                locinfo.setName(bundle.getString("poi_name"));
+                locinfo.setCity(bundle.getString("poi_city"));
+                locinfo.setAddress(bundle.getString("poi_address"));
+                locinfo.setPosition(new LatLng(bundle.getDouble("poi_lat"), bundle.getDouble("poi_lng")));
+                loc_myself = false;
             }
 
-            if(isFirstLoc){
-                LatLng l1 = new LatLng(location.getLatitude(), location.getAltitude());
-                MapStatus.Builder builder = new MapStatus.Builder();
-                builder.target(l1).zoom(14.0f);
-                bdMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
-                isFirstLoc = false;
-            }
-            /*else{
-                MyLocationData locationData = new MyLocationData.Builder()
-                        .accuracy(0)
-                        .latitude(location.getLatitude())
-                        .longitude(location.getLongitude())
-                        .build();
-                bdMap.setMyLocationData(locationData);
-                LatLng  ll = new LatLng(location.getLatitude(), location.getLongitude());
-                MapStatus.Builder builder = new MapStatus.Builder();
-                //builder.target(ll).zoom(14.0f);
-                bdMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
-            }*/
         }
-    };
+        //initSearchView();
+        //initSuggestSearch();
+        //initListView();
+    }
 
-    public void initButton(){
-        Button search = findViewById(R.id.search);
-        search.setOnClickListener(new View.OnClickListener() {
+
+    private void setPersonMarker(LatLng personPoint) {
+        if (null != personPoint) {
+            if(marker!=null){
+                marker.remove();
+            }
+            bdMap.setMyLocationEnabled(true);
+            /*MyLocationData locData = new MyLocationData.Builder()
+                    .latitude(personPoint.latitude)
+                    .longitude(personPoint.longitude).build();
+            bdMap.setMyLocationData(locData);*/
+
+            LatLng ll = new LatLng(personPoint.latitude,
+                    personPoint.longitude);
+            MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
+            bdMap.animateMapStatus(u);
+            BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.mipmap.ic_loc);
+            OverlayOptions option = new MarkerOptions().position(ll).icon(bitmap);
+            marker = (Marker)bdMap.addOverlay(option);
+            bdMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(new MapStatus.Builder().zoom(17).build()));
+        }
+    }
+    /*public void initListView(){
+        searchList2 = findViewById(R.id.search_list2);
+        adapter = new SugAdapter(MapActivity.this);
+    }*/
+    /*public void initSuggestSearch(){
+        suggestionSearch = SuggestionSearch.newInstance();
+        suggestionSearch.setOnGetSuggestionResultListener(msuggerstListener);
+    }*/
+    /*String[] key_sug;
+    String[] city_sug;
+    String[] district_sug;
+    LatLng[] position_sug;
+    String[] distance_sug;
+    List<Map<String, Object>> sugData;*/
+    /*private OnGetSuggestionResultListener msuggerstListener = new OnGetSuggestionResultListener() {
+        @Override
+        public void onGetSuggestionResult(SuggestionResult suggestionResult) {
+            if(suggestionResult == null || suggestionResult.getAllSuggestions() == null){
+                return;
+            }
+            List<SuggestionResult.SuggestionInfo> sInfo= suggestionResult.getAllSuggestions();
+            int n = sInfo.size();
+            key_sug = new String[n];
+            city_sug = new String[n];
+            district_sug = new String[n];
+            position_sug = new LatLng[n];
+            distance_sug = new String[n];
+
+            for(int i = 0;i<n;i++){
+                key_sug[i] = sInfo.get(i).key;
+                city_sug[i] = sInfo.get(i).city;
+                district_sug[i] = sInfo.get(i).district;
+                position_sug[i] = sInfo.get(i).pt;
+                DecimalFormat df = new DecimalFormat("######0");
+                distance_sug[i] = df.format(DistanceUtil.getDistance(self_position, sInfo.get(i).pt));
+            }
+            sugData = getData();
+            searchList2.setAdapter(adapter);
+        }
+    };*/
+    /*private List<Map<String, Object>> getData() {
+        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+        for(int i=0;i<city_sug.length;i++)
+        {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("key_sug", key_sug[i]);
+            map.put("city_sug", city_sug[i]);
+            map.put("district_sug", district_sug[i]);
+            map.put("position_sug", position_sug[i]);
+            map.put("distance_sug", distance_sug[i]);
+            list.add(map);
+        }
+        return list;
+    }*/
+    /*class SugAdapter extends BaseAdapter {
+        private LayoutInflater mInflater;
+        public SugAdapter(Context context){
+            this.mInflater = LayoutInflater.from(context);
+        }
+        @Override
+        public int getCount() {
+            int size = sugData.size();
+            if (size>0){
+                return sugData.size()>=20 ? 20 : sugData.size();
+            }
+            else {
+                return 0;
+            }
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            ViewHolderSug holder = null;
+            if (convertView == null) {
+                holder = new ViewHolderSug();
+                convertView = mInflater.inflate(R.layout.listview_item_sugdistance, null);
+                convertView.setBackgroundColor(Color.WHITE);
+                holder.sugInfo = (TextView)convertView.findViewById(R.id.locationInfo);
+                holder.sugDistance = (TextView)convertView.findViewById(R.id.distanceInfo);
+
+                convertView.setTag(holder);
+            }else {
+                holder = (ViewHolderSug) convertView.getTag();
+            }
+            //myApp.setpoiLatLng((LatLng)mData.get(position).get("poi_latlng"));
+            holder.sugInfo.setText((String)sugData.get(position).get("key_sug")+"\n"+(String)sugData.get(position).get("city_sug")+(String)sugData.get(position).get("district_sug"));
+            holder.sugDistance.setText(sugData.get(position).get("distance_sug")+"m");
+            holder.sugInfo.setTag(position);
+            holder.sugDistance.setTag(position);
+            holder.sugInfo.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    loc_myself = false;
+                    setPersonMarker((LatLng) sugData.get(position).get("position_sug"));
+                    searchView.clearFocus();
+                    int sugdata_size = sugData.size();
+                    if(sugdata_size>0){
+                        sugData.removeAll(sugData);
+                        searchList2.setAdapter(adapter);
+                    }
+                }
+
+            });
+
+            //holder.LinearLayout_poi.setOnClickListener(MyListener(position));
+
+            return convertView;
+        }
+    }
+
+    class ViewHolderSug{
+        TextView sugInfo;
+        TextView sugDistance;
+    }*/
+
+    /*public void searchSuggestView(String s){
+        if(s.equals("")){
+            //sugData.clear();
+            int sugdata_size = sugData.size();
+            if(sugdata_size>0){
+                sugData.removeAll(sugData);
+                searchList2.setAdapter(adapter);
+            }
+        }
+        else{
+            suggestionSearch.requestSuggestion(new SuggestionSearchOption().city(city).keyword(s));
+        }
+
+    }*/
+    /*public void initSearchView(){
+        searchView = findViewById(R.id.search_view2);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
 
+            @Override
+            public boolean onQueryTextChange(String s) {
+                searchSuggestView(s);
+                return true;
             }
         });
-    }
+    }*/
 
     @Override
     protected void onResume() {

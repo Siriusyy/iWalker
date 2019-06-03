@@ -1,20 +1,23 @@
 package com.yang.iwalker.adapter;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yang.iwalker.R;
 
 import java.util.List;
+import java.util.Map;
 
 public class FriendsAdapter extends RecyclerView.Adapter <FriendsAdapter.ViewHolder> {
 
     public interface Act1 {
-        void click();
+        void click(Bundle bundle);
     }
 
     public void setAct(Act1 act) {
@@ -22,29 +25,27 @@ public class FriendsAdapter extends RecyclerView.Adapter <FriendsAdapter.ViewHol
     }
 
     Act1 act;
+    List<Map<String, Object>> datas;
 
-    List datas;
-
-
-
-    public FriendsAdapter(List  datas) {
+    public FriendsAdapter(List<Map<String, Object>> datas) {
         this.datas = datas;
     }
 
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-
-        TextView friendID;
+        String ID;
+        TextView friendname;
         TextView info;
+        ImageView image;
 
         View view;
 
         public ViewHolder(@NonNull final View itemView) {
             super(itemView);
             this.view = itemView;
-            friendID = itemView.findViewById(R.id.fri_id);
-            info = itemView.findViewById(R.id.fri_info);
-
+            friendname = itemView.findViewById(R.id.fri_id);
+            info = itemView.findViewById(R.id.comment_info_name);
+            image = itemView.findViewById(R.id.img_fri);
         }
     }
 
@@ -66,22 +67,14 @@ public class FriendsAdapter extends RecyclerView.Adapter <FriendsAdapter.ViewHol
                 int position = holder.getAdapterPosition();
 
                 if (act!=null){
-                    act.click();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("ID", holder.ID);
+                    act.click(bundle);
                 }
 
             }
         });
-        holder.friendID.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int position = holder.getAdapterPosition();
 
-
-                    /*点击list_home中friendID动作*/
-
-
-            }
-        });
         return holder;
     }
 
@@ -92,11 +85,9 @@ public class FriendsAdapter extends RecyclerView.Adapter <FriendsAdapter.ViewHol
      */
     @Override
     public void onBindViewHolder(@NonNull FriendsAdapter.ViewHolder viewHolder, int i) {
-
-
-
-        viewHolder.friendID.setText(datas.get(i).toString());
-
+        viewHolder.friendname.setText(datas.get(i).get("friendname").toString());
+        viewHolder.info.setText(datas.get(i).get("info").toString());
+        viewHolder.ID = datas.get(i).get("friendID").toString();
     }
 
     @Override

@@ -1,22 +1,18 @@
 package com.yang.iwalker;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.RadioGroup;
 
-import com.yang.iwalker.adapter.HomeAdapter;
+import com.baidu.mapapi.SDKInitializer;
 import com.yang.iwalker.fragment.BlankFragment;
 import com.yang.iwalker.fragment.FriendsFragment;
 import com.yang.iwalker.fragment.MapFragment;
 import com.yang.iwalker.fragment.SelfFragment;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class TestActivity extends AppCompatActivity {
 
@@ -45,10 +41,9 @@ public class TestActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.mainpage);
         initView();
-
-
     }
 
     private void initView() {
@@ -56,8 +51,9 @@ public class TestActivity extends AppCompatActivity {
         mFragmentSparseArray = new SparseArray<>();
         mFragmentSparseArray.append(R.id.home_tab, BlankFragment.newInstance(""));
         mFragmentSparseArray.append(R.id.friends_tab, FriendsFragment.newInstance(""));
-        mFragmentSparseArray.append(R.id.map_tab, MapFragment.newInstance("地图"));
         mFragmentSparseArray.append(R.id.self_tab, SelfFragment.newInstance(""));
+        mFragmentSparseArray.append(R.id.map_tab, MapFragment.newInstance(""));
+
         mTabRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -72,12 +68,9 @@ public class TestActivity extends AppCompatActivity {
         findViewById(R.id.sign_iv).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(TestActivity.this, FriendInfoActivity.class));
+                startActivity(new Intent(TestActivity.this, PublishDynamicActivity2.class));
             }
         });
-
-
-
 
     }
 

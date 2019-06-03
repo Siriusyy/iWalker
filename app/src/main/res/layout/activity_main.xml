@@ -8,10 +8,36 @@
 
     <Button
         android:id="@+id/map_button"
-        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
         android:layout_width="200dp"
         android:layout_height="60dp"
         android:text="map"
         android:textSize="30sp"/>
+    <android.support.v7.widget.SearchView
+        android:id="@+id/searchview"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        app:queryHint="搜索"
+        android:layout_centerHorizontal="true">
+
+    </android.support.v7.widget.SearchView>
+
+    <TextView
+        android:id="@+id/weather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="当前天气："
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="100dp"
+        android:layout_marginTop="100dp"/>
+    <ListView
+        android:id="@+id/listview_location"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/searchview"
+        android:layout_centerHorizontal="true"
+        ></ListView>
 
 </RelativeLayout>

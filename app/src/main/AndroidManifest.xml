@@ -19,11 +19,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/XUITheme.Phone">
+        <activity android:name=".ChangeInfo"></activity>
         <activity
             android:name=".CommentActivity"
             android:label="@string/title_activity_comment"
-            android:theme="@style/NoActionBar"></activity>
+            android:theme="@style/NoActionBar" />
         <activity android:name=".FriendInfoActivity" />
+        <activity android:name=".PublishDynamicActivity2" />
         <activity android:name=".GuideActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,8 +34,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".RegActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".MapActivity" />
+        <activity android:name=".LoginActivity"></activity>
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"

@@ -1,18 +1,14 @@
 package com.yang.iwalker.fragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.service.autofill.Dataset;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,17 +16,17 @@ import com.xuexiang.xui.widget.actionbar.TitleBar;
 import com.yang.iwalker.FriendInfoActivity;
 import com.yang.iwalker.R;
 import com.yang.iwalker.adapter.FriendsAdapter;
-import com.yang.iwalker.adapter.HomeAdapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class FriendsFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_SHOW_TEXT = "text";
 
     private String mContentText;
-
 
     public FriendsFragment() {
         // Required empty public constructor
@@ -58,11 +54,7 @@ public class FriendsFragment extends Fragment {
             mContentText = getArguments().getString(ARG_SHOW_TEXT);
         }
 
-
-
     }
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -97,39 +89,27 @@ public class FriendsFragment extends Fragment {
         RecyclerView recycle = getActivity().findViewById(R.id.recycle_friends);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recycle.setLayoutManager(layoutManager);
-        List<String> datas=new ArrayList<String>();
-        datas.add("蔡徐坤");
-        datas.add("蔡徐坤");
-        datas.add("蔡徐坤");
-        datas.add("蔡徐坤");
-        datas.add("蔡徐坤");
-        datas.add("蔡徐坤");
-        datas.add("蔡徐坤");
-        datas.add("蔡徐坤");
-        datas.add("蔡徐坤");
-        datas.add("蔡徐坤");
-        datas.add("蔡徐坤");
-        datas.add("蔡徐坤");
-        datas.add("蔡徐坤");
-        datas.add("蔡徐坤");
-        datas.add("蔡徐坤");
-        datas.add("蔡徐坤");
-        datas.add("蔡徐坤");
-        datas.add("蔡徐坤");
-        datas.add("蔡徐坤");
+        List<Map<String, Object>> datas=new ArrayList<>();
+        for(int i=0;i<20;i++){
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("friendID", i);
+            map.put("friendname", "蔡徐坤");
+            map.put("info", "唱跳rap篮球");
+            //map.put("image", "5月21日");
+
+            datas.add(map);
+        }
 
         FriendsAdapter adatper=new FriendsAdapter(datas);
         adatper.setAct(new FriendsAdapter.Act1() {
             @Override
-            public void click() {
+            public void click(Bundle bundle) {
                 Intent intent=new Intent(getContext(), FriendInfoActivity.class);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
         recycle.setAdapter(adatper);
-
-
-
     }
 
 
