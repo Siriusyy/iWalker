@@ -13,7 +13,7 @@
             android:id="@+id/back"
             android:layout_width="60dp"
             android:layout_height="match_parent"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:gravity="center"
             android:text="取消"
             android:textColor="@color/xui_config_color_black"
@@ -24,7 +24,7 @@
             android:id="@+id/publish_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:gravity="center"
             android:textColor="@color/xui_config_color_black"
             android:text="修改个人信息" />
@@ -35,7 +35,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:gravity="center"
             android:textColor="@color/xui_config_color_black"
             android:background="@drawable/publish_button"
@@ -57,7 +57,7 @@
             android:background="@drawable/self_change_text"
             android:text="昵称"
             android:gravity="center"
-            android:textSize="20sp" />
+            android:textSize="16sp" />
         <EditText
             android:id="@+id/user_nickname_now"
             android:layout_width="match_parent"
@@ -66,7 +66,7 @@
             android:background="@color/xui_config_color_white"
             android:gravity="left"
             android:layout_toRightOf="@+id/user_nickname_text"
-            android:textSize="20sp" />
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/user_gender_text"
             android:layout_width="90dp"
@@ -75,7 +75,7 @@
             android:background="@drawable/self_change_text"
             android:text="性别"
             android:gravity="center"
-            android:textSize="20sp" />
+            android:textSize="16sp" />
 
         <RadioGroup
             android:id="@+id/user_gender_now"
@@ -86,7 +86,7 @@
             android:background="@color/xui_config_color_white"
             android:gravity="left"
             android:layout_toRightOf="@+id/user_gender_text"
-            android:textSize="20sp">
+            android:textSize="16sp">
             <RadioButton
                 android:id="@+id/user_gender_woman"
                 android:layout_width="60dp"
@@ -96,7 +96,7 @@
                 android:gravity="left|center"
                 android:text="女"
 
-                android:textSize="20sp" />
+                android:textSize="16sp" />
             <RadioButton
                 android:id="@+id/user_gender_man"
                 android:layout_width="60dp"
@@ -106,7 +106,7 @@
                 android:layout_marginTop="5dp"
                 android:text="男"
 
-                android:textSize="20sp" />
+                android:textSize="16sp" />
         </RadioGroup>
 
         <TextView
@@ -117,7 +117,7 @@
             android:background="@drawable/self_change_text"
             android:text="新密码"
             android:gravity="center"
-            android:textSize="20sp" />
+            android:textSize="16sp" />
         <EditText
             android:id="@+id/user_password_now"
             android:layout_width="match_parent"
@@ -127,7 +127,7 @@
             android:gravity="left"
             android:inputType="textPassword"
             android:layout_toRightOf="@+id/user_password_text"
-            android:textSize="20sp" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/user_repassword_text"
@@ -137,7 +137,7 @@
             android:background="@drawable/self_change_text"
             android:text="重复密码"
             android:gravity="center"
-            android:textSize="20sp" />
+            android:textSize="16sp" />
         <EditText
             android:id="@+id/user_repassword_now"
             android:layout_width="match_parent"
@@ -147,7 +147,7 @@
             android:gravity="left"
             android:inputType="textPassword"
             android:layout_toRightOf="@+id/user_repassword_text"
-            android:textSize="20sp" />
+            android:textSize="16sp" />
 
     </RelativeLayout>
 </RelativeLayout>

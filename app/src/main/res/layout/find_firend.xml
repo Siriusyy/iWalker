@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!-- 顶部添加文字 -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/xui_config_color_white"
+        android:gravity="center">
+
+
+        <TextView
+            android:id="@+id/search_btn"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:textColor="@color/xui_btn_blue_select_color"
+            android:text="搜索"
+            />
+        <TextView
+            android:id="@+id/publish_title"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:textSize="15sp"
+            android:gravity="left|center"
+            android:layout_toLeftOf="@id/search_btn"
+
+            android:drawableLeft="@drawable/search_24px"
+            android:paddingLeft="10dip"
+
+            android:drawablePadding="10dip"
+            android:textColor="@color/xui_config_color_gray_5"
+            android:background="@drawable/bg_search_bar"
+            android:text="用户昵称或用户名" />
+    </RelativeLayout>
+    <!-- 显示图片 -->
+    <view class="android.support.v7.app.AlertController$RecycleListView"
+        android:id="@+id/recycle_find_friends"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scrollbars="vertical"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        >
+
+    </view>
+</RelativeLayout>
