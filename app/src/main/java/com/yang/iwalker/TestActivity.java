@@ -13,6 +13,7 @@ import com.yang.iwalker.adapter.HomeAdapter;
 import com.yang.iwalker.fragment.BlankFragment;
 import com.yang.iwalker.fragment.FriendsFragment;
 import com.yang.iwalker.fragment.MapFragment;
+import com.yang.iwalker.fragment.SelfFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +57,7 @@ public class TestActivity extends AppCompatActivity {
         mFragmentSparseArray.append(R.id.home_tab, BlankFragment.newInstance(""));
         mFragmentSparseArray.append(R.id.friends_tab, FriendsFragment.newInstance(""));
         mFragmentSparseArray.append(R.id.map_tab, MapFragment.newInstance("地图"));
-        mFragmentSparseArray.append(R.id.self_tab, BlankFragment.newInstance("我的"));
+        mFragmentSparseArray.append(R.id.self_tab, SelfFragment.newInstance(""));
         mTabRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {

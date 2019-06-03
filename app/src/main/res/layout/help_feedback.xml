@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!-- 顶部添加文字 -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/xui_config_color_white"
+        android:gravity="center">
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/return_64px"
+            />
+
+        <TextView
+            android:id="@+id/publish_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:textColor="@color/xui_config_color_black"
+            android:text="帮助与反馈" />
+    </RelativeLayout>
+    <!-- 显示图片 -->
+    <RelativeLayout
+        android:id="@+id/Content_Layout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        <TextView
+            android:id="@+id/Edition_text"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="60dp"
+            android:background="@drawable/self_change_text"
+            android:text="版本更新"
+            android:gravity="left|center"
+            android:paddingStart="20dp"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/Edition_now"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="70dp"
+            android:layout_marginRight="15dp"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/xui_btn_gray_normal_color"
+            android:text="已是最近版本"
+            android:gravity="right|center"
+            android:textSize="18sp"  />
+        <TextView
+            android:id="@+id/help_text"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="130dp"
+            android:background="@drawable/self_change_text"
+            android:text="帮助"
+            android:gravity="left|center"
+            android:paddingStart="20dp"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/help_image"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="145dp"
+            android:layout_marginRight="15dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/next_right_48px"
+            />
+        <TextView
+            android:id="@+id/feedback_text"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="200dp"
+            android:background="@drawable/self_change_text"
+            android:text="反馈"
+            android:gravity="left|center"
+            android:paddingStart="20dp"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/feedback_img"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="215dp"
+            android:layout_marginRight="15dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/next_right_48px"
+            />
+
+    </RelativeLayout>
+</RelativeLayout>
