@@ -72,7 +72,7 @@ public class TestActivity extends AppCompatActivity {
         findViewById(R.id.sign_iv).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(TestActivity.this, FriendInfoActivity.class));
+                startActivity(new Intent(TestActivity.this, TimeLineActivity.class));
             }
         });
 
