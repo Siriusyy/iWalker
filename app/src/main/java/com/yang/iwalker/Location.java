@@ -19,6 +19,8 @@ public class Location {
     public String city = "";
     public String district;
     public String street;
+    public double latitude;
+    public double longitude;
     public Location(Context context){
         this.context = context;
     }
@@ -42,6 +44,8 @@ public class Location {
             city = bdLocation.getCity();    //获取城市
             district = bdLocation.getDistrict();    //获取区县
             street = bdLocation.getStreet();    //获取街道信息
+            latitude = bdLocation.getLatitude();
+            longitude = bdLocation.getLongitude();
         }
     };
 }

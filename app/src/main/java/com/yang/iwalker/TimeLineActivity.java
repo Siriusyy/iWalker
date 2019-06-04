@@ -1,88 +1,90 @@
 package com.yang.iwalker;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.yang.iwalker.NetWork.DoOkHttp;
 import com.yang.iwalker.layout.TimelineLayout;
-import com.yang.iwalker.utils.UIHelper;
 
-public class TimeLineActivity extends AppCompatActivity implements View.OnClickListener{
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-    private Button addItemButton;
-    private Button subItemButton;
-    private Button addMarginButton;
-    private Button subMarginButton;
-    private TextView mCurrentMargin;
+public class TimeLineActivity extends AppCompatActivity{
 
     private TimelineLayout mTimelineLayout;
+    DoOkHttp client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_time_line);
-
+        client = new DoOkHttp();
         initView();
+        new Thread(infoRunnable).start();
     }
 
     private void initView() {
-        /*addItemButton = (Button) findViewById(R.id.add_item);
-        subItemButton = (Button) findViewById(R.id.sub_item);
-        addMarginButton= (Button) findViewById(R.id.add_margin);
-        subMarginButton= (Button) findViewById(R.id.sub_margin);*/
-        mCurrentMargin= (TextView) findViewById(R.id.current_margin);
         mTimelineLayout = (TimelineLayout) findViewById(R.id.timeline_layout);
-
-        /*addItemButton.setOnClickListener(this);
-        subItemButton.setOnClickListener(this);
-        addMarginButton.setOnClickListener(this);
-        subMarginButton.setOnClickListener(this);*/
     }
 
     private int index = 0;
     //添加
-    private void addItem() {
+    private void addItem(JsonObject item) {
         View view = LayoutInflater.from(this).inflate(R.layout.item_timeline, mTimelineLayout, false);
-        ((TextView) view.findViewById(R.id.tv_action)).setText("步骤" + index);
-        ((TextView) view.findViewById(R.id.tv_action_time)).setText("2017年3月8日16:55:04");
-        ((TextView) view.findViewById(R.id.tv_action_status)).setText("完成");
+        String time = stamp2Date(item.get("createTime").getAsString());
+        ((TextView) view.findViewById(R.id.tv_action_time)).setText(time);
+
+        String li = item.get("locationName").getAsString();
+        String[] list = li.split(",");
+        String s = list[2] +" "+ list[3].substring(0, list[3].length()-1);
+        ((TextView) view.findViewById(R.id.tv_action_status)).setText(s);
+
         mTimelineLayout.addView(view);
         index++;
     }
     //删除
-
     private void subItem() {
         if (mTimelineLayout.getChildCount() > 0) {
             mTimelineLayout.removeViews(mTimelineLayout.getChildCount() - 1, 1);
             index--;
         }
     }
+    JsonArray datas;
+    Runnable infoRunnable = new Runnable() {
 
-
-    @Override
-    public void onClick(View v) {
-        /*switch (v.getId()){
-            case R.id.add_item:
-                addItem();
-                break;
-            case R.id.sub_item:
-                subItem();
-                break;
-            case R.id.add_margin:
-                int currentMargin = UIHelper.pxToDip(this, mTimelineLayout.getLineMarginLeft());
-                mTimelineLayout.setLineMarginLeft(UIHelper.dipToPx(this, ++currentMargin));
-                mCurrentMargin.setText("current line margin left is " + currentMargin + "dp");
-                break;
-            case R.id.sub_margin:
-                currentMargin = UIHelper.pxToDip(this, mTimelineLayout.getLineMarginLeft());
-                mTimelineLayout.setLineMarginLeft(UIHelper.dipToPx(this, --currentMargin));
-                mCurrentMargin.setText("current line margin left is " + currentMargin + "dp");
-                break;
-            default:
-                break;
-        }*/
+        @Override
+        public void run() {
+            datas = client.getSelfActivity("20", "0");
+            Message msg = new Message();
+            msg.what = 1;
+            mHandler.sendMessage(msg);
+        }
+    };
+    Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case 1:
+                    for(int i=0; i<datas.size();i++){
+                        addItem(datas.get(i).getAsJsonObject());
+                    }
+            }
+            super.handleMessage(msg);
+        }
+    };
+    public static String stamp2Date(String s){
+        String res;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        long lt = new Long(s);
+        Date date = new Date(lt);
+        res = simpleDateFormat.format(date);
+        return res;
     }
 }

@@ -1,5 +1,6 @@
 package com.yang.iwalker.adapter;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -9,10 +10,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.yang.iwalker.R;
 
 import java.util.List;
-import java.util.Map;
 
 public class FriendsAdapter extends RecyclerView.Adapter <FriendsAdapter.ViewHolder> {
 
@@ -25,10 +27,12 @@ public class FriendsAdapter extends RecyclerView.Adapter <FriendsAdapter.ViewHol
     }
 
     Act1 act;
-    List<Map<String, Object>> datas;
+    JsonArray datas;
+    List<Bitmap> l;
 
-    public FriendsAdapter(List<Map<String, Object>> datas) {
+    public FriendsAdapter(JsonArray datas, List<Bitmap> l) {
         this.datas = datas;
+        this.l = l;
     }
 
 
@@ -85,9 +89,22 @@ public class FriendsAdapter extends RecyclerView.Adapter <FriendsAdapter.ViewHol
      */
     @Override
     public void onBindViewHolder(@NonNull FriendsAdapter.ViewHolder viewHolder, int i) {
-        viewHolder.friendname.setText(datas.get(i).get("friendname").toString());
-        viewHolder.info.setText(datas.get(i).get("info").toString());
-        viewHolder.ID = datas.get(i).get("friendID").toString();
+        JsonObject object = datas.get(i).getAsJsonObject();
+        viewHolder.ID = object.get("userName").getAsString();
+        if(!object.get("nickname").isJsonNull()){
+            viewHolder.friendname.setText(object.get("nickname").getAsString()+"("+viewHolder.ID+")");
+        }else{
+            viewHolder.friendname.setText("未命名用戶"+"("+viewHolder.ID+")");
+        }
+
+        if(!object.get("desc").isJsonNull()){
+            viewHolder.info.setText(object.get("desc").getAsString());
+        } else{
+            viewHolder.info.setText("");
+        }
+
+        viewHolder.image.setImageBitmap(l.get(i));
+
     }
 
     @Override

@@ -1,7 +1,11 @@
 package com.yang.iwalker.fragment;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,23 +14,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.xuexiang.xui.widget.actionbar.TitleBar;
+import com.yang.iwalker.BitmapTool;
 import com.yang.iwalker.FriendInfoActivity;
+import com.yang.iwalker.FriendsAdd;
+import com.yang.iwalker.NetWork.DoOkHttp;
 import com.yang.iwalker.R;
 import com.yang.iwalker.adapter.FriendsAdapter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class FriendsFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_SHOW_TEXT = "text";
 
     private String mContentText;
+    private DoOkHttp client;
+    private RecyclerView recycle;
+    FriendsAdapter adatper;
 
     public FriendsFragment() {
         // Required empty public constructor
@@ -63,7 +72,7 @@ public class FriendsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_friends, container, false);
         TextView contentTv = rootView.findViewById(R.id.content_tv);
         contentTv.setText(mContentText);
-
+        client = new DoOkHttp();
         return rootView;
     }
 
@@ -76,20 +85,25 @@ public class FriendsFragment extends Fragment {
             @Override
             public void performAction(View view) {
 
-                Toast.makeText(getContext(),"搜索好友",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(),"搜索好友",Toast.LENGTH_SHORT).show();
             }
         });
         titlebar.addAction(new TitleBar.ImageAction(R.drawable.ic_action_add) {
             @Override
             public void performAction(View view) {
-                Toast.makeText(getContext(),"添加好友",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(),"添加好友",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity().getApplicationContext(), FriendsAdd.class);
+                startActivity(intent);
             }
         });
 
-        RecyclerView recycle = getActivity().findViewById(R.id.recycle_friends);
+        recycle = getActivity().findViewById(R.id.recycle_friends);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recycle.setLayoutManager(layoutManager);
-        List<Map<String, Object>> datas=new ArrayList<>();
+
+        new Thread(infoRunnable).start();
+
+        /*List<Map<String, Object>> datas=new ArrayList<>();
         for(int i=0;i<20;i++){
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("friendID", i);
@@ -98,19 +112,49 @@ public class FriendsFragment extends Fragment {
             //map.put("image", "5月21日");
 
             datas.add(map);
-        }
+        }*/
 
-        FriendsAdapter adatper=new FriendsAdapter(datas);
-        adatper.setAct(new FriendsAdapter.Act1() {
-            @Override
-            public void click(Bundle bundle) {
-                Intent intent=new Intent(getContext(), FriendInfoActivity.class);
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
-        });
-        recycle.setAdapter(adatper);
     }
 
+    Runnable infoRunnable = new Runnable() {
+        @Override
+        public void run() {
+            JsonArray datas = client.showFriends();
+            List<Bitmap> list = new ArrayList<>();
+            for(int i =0;i < datas.size();i++){
+                JsonObject  o = datas.get(i).getAsJsonObject();
+                if(!o.get("image").isJsonNull()){
+                    Bitmap b = BitmapTool.returnBitMap(o.get("image").getAsString());
+                    list.add(b);
+                }
+                else{
+                    Bitmap b = BitmapFactory.decodeResource(getContext().getResources(), R.mipmap.logo);
+                    list.add(b);
+                }
+            }
 
+            adatper = new FriendsAdapter(datas, list);
+            adatper.setAct(new FriendsAdapter.Act1() {
+                @Override
+                public void click(Bundle bundle) {
+                    Intent intent=new Intent(getContext(), FriendInfoActivity.class);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+            });
+            Message m =new Message();
+            m.what = 1;
+            infoHandler.sendMessage(m);
+        }
+    };
+    Handler infoHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case 1:
+                    recycle.setAdapter(adatper);
+            }
+            super.handleMessage(msg);
+        }
+    };
 }

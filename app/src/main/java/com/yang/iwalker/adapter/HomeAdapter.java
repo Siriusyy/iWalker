@@ -2,9 +2,11 @@ package com.yang.iwalker.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,20 +14,28 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.yang.iwalker.CommentActivity;
+import com.yang.iwalker.NetWork.DoOkHttp;
 import com.yang.iwalker.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 public class HomeAdapter extends RecyclerView.Adapter <HomeAdapter.ViewHolder> {
 
-    List<Map<String, Object>> datas;
+    JsonArray datas;
     Context context;
+    List<Bitmap> l;
+    DoOkHttp client;
 
-    public HomeAdapter(List<Map<String, Object>> datas, Context context) {
+    public HomeAdapter(JsonArray datas, Context context, List<Bitmap> l, DoOkHttp client) {
         this.datas = datas;
         this.context = context;
+        this.l = l;
+        this.client = client;
     }
     static class ViewHolder extends RecyclerView.ViewHolder {
         String dynamicID;
@@ -67,6 +77,7 @@ public class HomeAdapter extends RecyclerView.Adapter <HomeAdapter.ViewHolder> {
     public HomeAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         final View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_home, viewGroup, false);
         final ViewHolder holder = new ViewHolder(view);
+        //JsonObject object = datas.get(i).getAsJsonObject();
         holder.radio_share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,12 +103,25 @@ public class HomeAdapter extends RecyclerView.Adapter <HomeAdapter.ViewHolder> {
         holder.radio_like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                if(holder.radio_like.isChecked()){
 
-            }
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            String num;
+                            num = client.like(holder.dynamicID);
+                            Log.i("status", num);
+                        }
+                    }).start();
+                    String s = holder.text_like.getText().toString();
+                    int num = Integer.valueOf(s)+1;
+                    holder.text_like.setText(String.valueOf(num));
+
+                }
+//            }
         });
         return holder;
     }
-
     /**
      * 列表中的子项滚动到屏幕中的时候调用
      * @param viewHolder
@@ -106,16 +130,26 @@ public class HomeAdapter extends RecyclerView.Adapter <HomeAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull HomeAdapter.ViewHolder viewHolder, int i) {
         //viewHolder.friendID.setText(datas.get(i).toString());
-        viewHolder.dynamicID = datas.get(i).get("dynamicID").toString();
-        viewHolder.friendID.setText(datas.get(i).get("friendID").toString());
-        viewHolder.content.setText(datas.get(i).get("content").toString());
-        viewHolder.text_date.setText(datas.get(i).get("textdate").toString());
-        viewHolder.text_like.setText(datas.get(i).get("textlike").toString());
-        viewHolder.text_location.setText(datas.get(i).get("textlocation").toString());
-        if(datas.get(i).get("radiolike").equals("1")){
+        JsonObject object = datas.get(i).getAsJsonObject();
+        viewHolder.dynamicID = object.get("id").getAsString();
+        viewHolder.friendID.setText(object.get("userName").getAsString());
+        viewHolder.content.setText(object.get("content").getAsString());
+        String time = stampToDate(object.get("createTime").getAsString());
+        viewHolder.text_date.setText(time);
+        viewHolder.text_like.setText(object.get("likeNum").getAsString());
+        String li = object.get("locationName").getAsString();
+        String[] list = li.split(",");
+        String s = list[3].substring(0, list[3].length()-1);
+        viewHolder.text_location.setText(s);
+
+        if(object.get("like").getAsString().equals("true")){
             viewHolder.radio_like.setChecked(true);
+        }else{
+            viewHolder.radio_like.setChecked(false);
         }
-        //viewHolder.image.setImageBitmap();
+        if(l.get(i) != null){
+            viewHolder.image.setImageBitmap(l.get(i));
+        }
 
     }
 
@@ -124,5 +158,12 @@ public class HomeAdapter extends RecyclerView.Adapter <HomeAdapter.ViewHolder> {
         return datas.size();
     }
 
-
+    public static String stampToDate(String s){
+        String res;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd");
+        long lt = new Long(s);
+        Date date = new Date(lt);
+        res = simpleDateFormat.format(date);
+        return res;
+    }
 }

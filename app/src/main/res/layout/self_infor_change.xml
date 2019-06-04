@@ -54,9 +54,9 @@
             android:layout_width="90dp"
             android:layout_height="50dp"
             android:layout_marginTop="60dp"
-            android:background="@drawable/self_change_text"
             android:text="昵称"
             android:gravity="center"
+            android:background="@color/xui_config_color_white"
             android:textSize="16sp" />
 
         <EditText
@@ -64,7 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginStart="0dp"
-            android:layout_marginLeft="5dp"
+            android:paddingLeft="8dp"
             android:layout_marginTop="60dp"
             android:layout_toEndOf="@+id/user_nickname_text"
             android:layout_toRightOf="@+id/user_nickname_text"
@@ -76,7 +76,7 @@
             android:layout_width="90dp"
             android:layout_height="50dp"
             android:layout_marginTop="115dp"
-            android:background="@drawable/self_change_text"
+            android:background="@color/xui_config_color_white"
             android:text="性别"
             android:gravity="center"
             android:textSize="16sp" />
@@ -109,7 +109,7 @@
                 android:gravity="left|center"
                 android:layout_marginTop="0dp"
                 android:text="男"
-
+                android:checked="true"
                 android:textSize="16sp" />
         </RadioGroup>
 
@@ -118,7 +118,7 @@
             android:layout_width="90dp"
             android:layout_height="50dp"
             android:layout_marginTop="170dp"
-            android:background="@drawable/self_change_text"
+            android:background="@color/xui_config_color_white"
             android:text="新密码"
             android:gravity="center"
             android:textSize="16sp" />
@@ -127,7 +127,7 @@
             android:id="@+id/user_password_now"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginLeft="5dp"
+            android:paddingLeft="8dp"
             android:layout_marginTop="170dp"
             android:layout_toRightOf="@+id/user_password_text"
             android:background="@color/xui_config_color_white"
@@ -140,7 +140,7 @@
             android:layout_width="90dp"
             android:layout_height="50dp"
             android:layout_marginTop="225dp"
-            android:background="@drawable/self_change_text"
+            android:background="@color/xui_config_color_white"
             android:text="重复密码"
             android:gravity="center"
             android:textSize="16sp" />
@@ -149,7 +149,7 @@
             android:id="@+id/user_repassword_now"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginLeft="5dp"
+            android:paddingLeft="8dp"
             android:layout_marginTop="225dp"
             android:layout_toRightOf="@+id/user_repassword_text"
             android:background="@color/xui_config_color_white"
@@ -161,7 +161,7 @@
             android:layout_width="90dp"
             android:layout_height="50dp"
             android:layout_marginTop="280dp"
-            android:background="@drawable/self_change_text"
+            android:background="@color/xui_config_color_white"
             android:text="个性签名"
             android:gravity="center"
             android:textSize="16sp" />
@@ -171,7 +171,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginStart="0dp"
-            android:layout_marginLeft="5dp"
+            android:paddingLeft="8dp"
             android:layout_marginTop="280dp"
             android:layout_toEndOf="@+id/user_nickname_text"
             android:layout_toRightOf="@+id/user_nickname_text"

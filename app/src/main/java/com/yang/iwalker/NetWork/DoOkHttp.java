@@ -1,8 +1,19 @@
 package com.yang.iwalker.NetWork;
 
-import android.net.http.HttpResponseCache;
-import android.provider.MediaStore;
 import android.util.Log;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
@@ -15,49 +26,39 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.io.File;
-import java.io.IOException;
-import java.text.Normalizer;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class DoOkHttp {
     private OkHttpClient okHttpClient;
     private JsonParser parse;
     private static HashMap<String, List<Cookie>> cookieStore = new HashMap<>();
-    private final String login_url = "http://10.120.173.204:8088/user/login.do";
-    private final String reg_url = "http://10.120.173.204:8088/user/register.do";
-    private final String logout_url = "http://10.120.173.204:8088/user/logout.do";
-    private final String modify_url = "http://10.120.173.204:8088/user/modify.do";
-    private final String userInfo_url = "http://10.120.173.204:8088/user/get_user_info.do";
-    private final String findFriend_url = "http://10.120.173.204:8088/user/findfriend.do";
-    private final String friends_url = "http://10.120.173.204:8088/relation/showfriend.do";
-    private final String addFriend_url = "http://10.120.173.204:8088/relation/addfriend.do";
-    private final String comfirm_url = "http://10.120.173.204:8088/relation/confirmfriend.do";
-    private final String showRequest_url = "http://10.120.173.204:8088/relation/showrequest.do";
-    private final String createImage_url = "http://10.120.173.204:8088/image/create.do";
-    private final String modifyActivity_url = "http://10.120.173.204:8088/activity/modify.do";
-    private final String createActivity_url = "http://10.120.173.204:8088/activity/create.do";
-    private final String deleteActivity_url = "http://10.120.173.204:8088/activity/delete.do";
-    private final String deleteImage_url = "http://10.120.173.204:8088/image/delete.do";
-    private final String getActivityInfo_url="http://10.120.173.204:8088/activity/get_activity_info.do";
-    private final String getActivityByUser_url = "http://10.120.173.204:8088/activity/get_activities_by_user.do";
-    private final String getActivityByLoc_url = "http://10.120.173.204:8088/activity/get_activities_by_location_name.do";
-    private final String getImageByActivity_url = "http://10.120.173.204:8088/image/get_by_activity.do";
-    private final String getCommit_url = "http://10.120.173.204:8088/comment/showcomment.do";
-    private final String addCommit_url = "http://10.120.173.204:8088/comment/addcomment.do";
-    private final String unlike_url = "http://10.120.173.204:8088/like/unlike.do";
-    private final String like_url = "http://10.120.173.204:8088/like/like.do";
-    private final String getAllAct_url = "http://10.120.173.204:8088/activity/get_all_activities.do";
+    private final String apiIp = "http://192.168.43.173:8088/";
+
+    private final String login_url = apiIp+"user/login.do";
+    private final String reg_url = apiIp+"user/register.do";
+    private final String logout_url = apiIp+"user/logout.do";
+    private final String modify_url = apiIp+"user/modify.do";
+    private final String userInfo_url = apiIp+"user/get_user_info.do";
+    private final String findFriend_url = apiIp+"user/findfriend.do";
+    private final String friends_url = apiIp+"relation/showfriend.do";
+    private final String addFriend_url = apiIp+"relation/addfriend.do";
+    private final String comfirm_url = apiIp+"relation/confirmfriend.do";
+    private final String showRequest_url = apiIp+"relation/showrequest.do";
+    private final String createImage_url = apiIp+"image/create.do";
+    private final String modifyActivity_url = apiIp+"activity/modify.do";
+    private final String createActivity_url = apiIp+"activity/create.do";
+    private final String deleteActivity_url = apiIp+"activity/delete.do";
+    private final String deleteImage_url = apiIp+"image/delete.do";
+    private final String getActivityInfo_url=apiIp+"activity/get_activity_info.do";
+    private final String getActivityByUser_url = apiIp+"activity/get_activities_by_user.do";
+    private final String getActivityByLoc_url = apiIp+"activity/get_activities_by_location_name.do";
+    private final String getImageByActivity_url = apiIp+"image/get_by_activity.do";
+    private final String getCommit_url = apiIp+"comment/showcomment.do";
+    private final String addCommit_url = apiIp+"comment/addcomment.do";
+    private final String unlike_url = apiIp+"like/unlike.do";
+    private final String like_url = apiIp+"like/like.do";
+    private final String getAllAct_url = apiIp+"activity/get_all_activities.do";
+    private final String getUserFriend_url = apiIp+"user/get_user_friend.do";
+    private final String getSelfActivity_url = apiIp+"activity/get_activities_by_self.do";
+
 
     static class Gist{
         Map<String, GistFile> files;
@@ -92,6 +93,30 @@ public class DoOkHttp {
         parse = new JsonParser();
     }
 
+    public JsonArray getSelfActivity(String limit, String offset){
+        JsonArray activities = null;
+        try{
+            FormBody body = new FormBody.Builder()
+                    .add("limit", limit)
+                    .add("offset", offset)
+                    .build();
+            Request request = new Request.Builder()
+                    .url(getSelfActivity_url)
+                    .post(body)
+                    .build();
+            Response response = okHttpClient.newCall(request).execute();
+            if(response.isSuccessful()){
+                String result = response.body().string();
+                JsonObject jsonObject = (JsonObject) parse.parse(result);
+                activities = jsonObject.get("status").toString().equals("0")?
+                        jsonObject.getAsJsonArray("data") : null;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return activities;
+    }
+
     public String login(String userName, String password){
         String status = "1";
         try{
@@ -117,8 +142,8 @@ public class DoOkHttp {
         return status;
     }
 
-    public JsonArray getUserInfo(){
-        JsonArray users = null;
+    public JsonObject getUserInfo(){
+        JsonObject users = null;
         try{
             FormBody body = new FormBody.Builder()
                     .build();
@@ -131,7 +156,7 @@ public class DoOkHttp {
                 String result = response.body().string();
                 JsonObject jsonObject = (JsonObject) parse.parse(result);
                 Log.i("user",result);
-                users = jsonObject.get("status").equals("0") ? jsonObject.getAsJsonArray("data") : null;
+                users = jsonObject.get("status").toString().equals("0") ? jsonObject.getAsJsonObject("data") : null;
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -139,12 +164,37 @@ public class DoOkHttp {
         return users;
     }
 
-    public String regiest(String username, String password){
+    public String deleteFriends(String applicant){
+        String res_status = "3";
+        try{
+            FormBody body = new FormBody.Builder()
+                    .add("applicant", applicant)
+                    .add("status", "3")
+                    .build();
+            Request request = new Request.Builder()
+                    .url(comfirm_url)
+                    .post(body)
+                    .build();
+            Response response = okHttpClient.newCall(request).execute();
+            if(response.isSuccessful()){
+                String result = response.body().string();
+                JsonObject jsonObject = (JsonObject) parse.parse(result);
+                res_status = jsonObject.get("status").getAsString();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return res_status;
+    }
+
+    public String regiest(String username, String password, String nickname, boolean gender){
         String status = "1";
         try{
             FormBody body = new FormBody.Builder()
                     .add("userName", username)
                     .add("password", password)
+                    .add("nickName", nickname)
+                    .add("gender", String.valueOf(gender))
                     .build();
             Request request = new Request.Builder()
                     .url(reg_url)
@@ -162,6 +212,8 @@ public class DoOkHttp {
         }
         return status;
     }
+
+
 
     public String logout(){
         String status = "1";
@@ -183,13 +235,103 @@ public class DoOkHttp {
             return status;
     }
 
-    public JsonObject modify(String userName, String nickName, File file){
+    public JsonObject modify(String nickName, String desc){
         JsonObject user = null;
         try {
             RequestBody requestBody = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
-                    .addFormDataPart("userName", userName)
                     .addFormDataPart("nickname", nickName)
+                    .addFormDataPart("desc", desc)
+                    .build();
+            Request request = new Request.Builder()
+                    .url(modify_url)
+                    .post(requestBody)
+                    .build();
+            Response response = okHttpClient.newCall(request).execute();
+            if (response.isSuccessful()) {
+                String result = response.body().string();
+                JsonObject jsonObject = (JsonObject) parse.parse(result);
+                user = jsonObject.get("status").equals("0") ? jsonObject.getAsJsonObject("data") : null;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return user;
+    }
+    public JsonObject modifyNickname(String nickName){
+        JsonObject user = null;
+        try {
+            RequestBody requestBody = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("nickname", nickName)
+                    .build();
+            Request request = new Request.Builder()
+                    .url(modify_url)
+                    .post(requestBody)
+                    .build();
+            Response response = okHttpClient.newCall(request).execute();
+            if (response.isSuccessful()) {
+                String result = response.body().string();
+                JsonObject jsonObject = (JsonObject) parse.parse(result);
+                user = jsonObject.get("status").equals("0") ? jsonObject.getAsJsonObject("data") : null;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return user;
+    }
+    public JsonObject modifyDesc(String desc){
+        JsonObject user = null;
+        try {
+            RequestBody requestBody = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("desc", desc)
+                    .build();
+            Request request = new Request.Builder()
+                    .url(modify_url)
+                    .post(requestBody)
+                    .build();
+            Response response = okHttpClient.newCall(request).execute();
+            if (response.isSuccessful()) {
+                String result = response.body().string();
+                JsonObject jsonObject = (JsonObject) parse.parse(result);
+                user = jsonObject.get("status").equals("0") ? jsonObject.getAsJsonObject("data") : null;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return user;
+    }
+
+    public JsonObject modifyGender(String gender){
+        JsonObject user = null;
+        try {
+            RequestBody requestBody = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("gender", gender)
+                    .build();
+            Request request = new Request.Builder()
+                    .url(modify_url)
+                    .post(requestBody)
+                    .build();
+            Response response = okHttpClient.newCall(request).execute();
+            if (response.isSuccessful()) {
+                String result = response.body().string();
+                JsonObject jsonObject = (JsonObject) parse.parse(result);
+                user = jsonObject.get("status").equals("0") ? jsonObject.getAsJsonObject("data") : null;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return user;
+    }
+
+
+    public JsonObject modify(File file){
+        JsonObject user = null;
+        try {
+            RequestBody requestBody = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
                     .addFormDataPart("file", file.getName(),
                             RequestBody.create(MediaType.parse("multipart/form-data"), file))
                     .build();
@@ -209,8 +351,8 @@ public class DoOkHttp {
         return user;
     }
 
-    public JsonObject findFriend(String friendName){
-        JsonObject friend = null;
+    public JsonArray findFriend(String friendName){
+        JsonArray friends = null;
         try{
             FormBody body = new FormBody.Builder()
                     .add("findname", friendName)
@@ -223,13 +365,14 @@ public class DoOkHttp {
             if(response.isSuccessful()){
                 String result = response.body().string();
                 JsonObject jsonObject = (JsonObject) parse.parse(result);
-                friend = jsonObject.get("status").equals("0")? jsonObject.getAsJsonObject("data"): null;
+                friends = jsonObject.get("status").toString().equals("0")? jsonObject.getAsJsonArray("data"): null;
             }
         }catch (Exception e){
             e.printStackTrace();
         }
-        return friend;
+        return friends;
     }
+
 
     public JsonArray showFriends(){
         JsonArray friends = null;
@@ -244,9 +387,9 @@ public class DoOkHttp {
             if(response.isSuccessful()){
                 String result = response.body().string();
                 JsonObject jsonObject = (JsonObject) parse.parse(result);
-                friends = jsonObject.get("status").equals("0")?
+                friends = jsonObject.get("status").toString().equals("0")?
                         jsonObject.getAsJsonArray("data") : null;
-                Log.i("friends", friends.getAsString());
+                //Log.i("friends", friends.getAsString());
             }
 
         }catch (Exception e){
@@ -259,7 +402,7 @@ public class DoOkHttp {
         String status = "1";
         try{
             FormBody body = new FormBody.Builder()
-                    .add("reciver", reciver)
+                    .add("receiver", reciver)
                     .build();
             Request request = new Request.Builder()
                     .url(addFriend_url)
@@ -277,12 +420,12 @@ public class DoOkHttp {
         return status;
     }
 
-    public String comfirmFriends(String applicant, String status){
+    public String comfirmFriends(String applicant){
         String res_status = "1";
         try{
             FormBody body = new FormBody.Builder()
                     .add("applicant", applicant)
-                    .add("status", status)
+                    .add("status", "1")
                     .build();
             Request request = new Request.Builder()
                     .url(comfirm_url)
@@ -313,7 +456,7 @@ public class DoOkHttp {
             if(response.isSuccessful()){
                 String result = response.body().string();
                 JsonObject jsonObject = (JsonObject) parse.parse(result);
-                requests = jsonObject.get("status").equals("0")?
+                requests = jsonObject.get("status").toString().equals("0")?
                         jsonObject.getAsJsonArray("data") : null;
             }
         }catch (Exception e){
@@ -338,13 +481,35 @@ public class DoOkHttp {
             if(response.isSuccessful()){
                 String result = response.body().string();
                 JsonObject jsonObject = (JsonObject) parse.parse(result);
-                activities = jsonObject.get("status").equals("0") ?
+                activities = jsonObject.get("status").toString().equals("0") ?
                         jsonObject.getAsJsonArray("data"):null;
             }
         }catch (Exception e){
             e.printStackTrace();
         }
         return activities;
+    }
+    public JsonObject getUserFriends(String userName){
+        JsonObject friend = null;
+        try{
+            FormBody body = new FormBody.Builder()
+                    .add("userName", userName)
+                    .build();
+            Request request = new Request.Builder()
+                    .url(getUserFriend_url)
+                    .post(body)
+                    .build();
+            Response response = okHttpClient.newCall(request).execute();
+            if(response.isSuccessful()){
+                String result = response.body().string();
+                JsonObject jsonObject = (JsonObject) parse.parse(result);
+                friend = jsonObject.get("status").toString().equals("0")?
+                        jsonObject.getAsJsonObject("data") : null;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return friend;
     }
 
     public JsonObject createImage(File file, String activity_id, String order){
@@ -365,7 +530,7 @@ public class DoOkHttp {
             if(response.isSuccessful()){
                 String result = response.body().string();
                 JsonObject jsonObject = (JsonObject) parse.parse(result);
-                image = jsonObject.get("status").equals("0")?
+                image = jsonObject.get("status").toString().equals("0")?
                         jsonObject.getAsJsonObject("data") : null;
             }
         }catch (Exception e){
@@ -389,7 +554,7 @@ public class DoOkHttp {
             if(response.isSuccessful()){
                 String result = response.body().string();
                 JsonObject jsonObject = (JsonObject) parse.parse(result);
-                activity = jsonObject.get("status").equals("0")?
+                activity = jsonObject.get("status").toString().equals("0")?
                         jsonObject.getAsJsonObject("data"):null;
             }
         }catch (Exception e){
@@ -414,7 +579,7 @@ public class DoOkHttp {
             if(response.isSuccessful()){
                 String result = response.body().string();
                 JsonObject jsonObject = (JsonObject) parse.parse(result);
-                activity = jsonObject.get("status").equals("0") ?
+                activity = jsonObject.get("status").toString().equals("0") ?
                         jsonObject.getAsJsonObject("data") : null;
             }
         }catch (Exception e){
@@ -467,6 +632,29 @@ public class DoOkHttp {
             e.printStackTrace();
         }
         return status;
+    }
+
+    public String rejectFriends(String applicant){
+        String res_status = "1";
+        try{
+            FormBody body = new FormBody.Builder()
+                    .add("applicant", applicant)
+                    .add("status", "2")
+                    .build();
+            Request request = new Request.Builder()
+                    .url(comfirm_url)
+                    .post(body)
+                    .build();
+            Response response = okHttpClient.newCall(request).execute();
+            if(response.isSuccessful()){
+                String result = response.body().string();
+                JsonObject jsonObject = (JsonObject) parse.parse(result);
+                res_status = jsonObject.get("status").getAsString();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return res_status;
     }
 
     public JsonObject getActivityInfo(String id){
@@ -586,7 +774,7 @@ public class DoOkHttp {
         String status = "1";
         try{
             FormBody body = new FormBody.Builder()
-                    .add("actity", activityId)
+                    .add("activity", activityId)
                     .build();
             Request request = new Request.Builder()
                     .url(like_url)
@@ -608,7 +796,7 @@ public class DoOkHttp {
         String status = "1";
         try{
             FormBody body = new FormBody.Builder()
-                    .add("actity", activityId)
+                    .add("activity", activityId)
                     .build();
             Request request = new Request.Builder()
                     .url(unlike_url)
@@ -648,8 +836,5 @@ public class DoOkHttp {
         }
         return activities;
     }
-
-
-
 
 }

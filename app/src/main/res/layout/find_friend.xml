@@ -24,7 +24,7 @@
             android:textColor="@color/xui_btn_blue_select_color"
             android:text="搜索"
             />
-        <TextView
+        <EditText
             android:id="@+id/publish_title"
             android:layout_width="match_parent"
             android:layout_height="35dp"
@@ -40,18 +40,18 @@
             android:drawablePadding="10dip"
             android:textColor="@color/xui_config_color_gray_5"
             android:background="@drawable/bg_search_bar"
-            android:text="用户昵称或用户名" />
+            android:hint="用户昵称或用户名"
+            />
     </RelativeLayout>
     <!-- 显示图片 -->
-    <view class="android.support.v7.app.AlertController$RecycleListView"
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/recycle_find_friends"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:scrollbars="vertical"
         android:layout_marginTop="60dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        >
+        />
 
-    </view>
 </RelativeLayout>

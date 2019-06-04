@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +16,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.JsonObject;
+import com.yang.iwalker.BitmapTool;
 import com.yang.iwalker.ChangeInfo;
+import com.yang.iwalker.NetWork.DoOkHttp;
+import com.yang.iwalker.NotifyActivity;
 import com.yang.iwalker.R;
+import com.yang.iwalker.TimeLineActivity;
+
+import java.io.File;
 
 
 public class SelfFragment extends Fragment {
@@ -37,6 +45,8 @@ public class SelfFragment extends Fragment {
     Button btn_user_footprint;
     Button btn_user_notice;
     Button btn_feedback;
+
+    DoOkHttp client;
 
     public SelfFragment() {
         // Required empty public constructor
@@ -78,6 +88,7 @@ public class SelfFragment extends Fragment {
                 choseHeadImageFromGallery();
             }
         });
+        client = new DoOkHttp();
         initText();
         initButton();
         initButtonClick();
@@ -108,18 +119,17 @@ public class SelfFragment extends Fragment {
 
         switch (requestCode) {
             case CODE_GALLERY_REQUEST:
-                cropRawPhoto(intent.getData());
+                if (intent != null) {
+                    cropRawPhoto(intent.getData());
+                }
                 break;
-
 
             case CODE_RESULT_REQUEST:
                 if (intent != null) {
                     setImageToHeadView(intent);
                 }
-
                 break;
         }
-
         super.onActivityResult(requestCode, resultCode, intent);
     }
     /**
@@ -153,6 +163,14 @@ public class SelfFragment extends Fragment {
         if (extras != null) {
             Bitmap photo = extras.getParcelable("data");
             user_image.setImageBitmap(photo);
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    File file = BitmapTool.getFile(photo);
+                    client.modify(file);
+                }
+            }).start();
         }
     }
     public void initText(){
@@ -175,14 +193,48 @@ public class SelfFragment extends Fragment {
                 startActivity(new Intent(getContext(), ChangeInfo.class));
             }
         });
+        btn_user_notice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), NotifyActivity.class));
+            }
+        });
+        btn_user_footprint.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), TimeLineActivity.class));
+            }
+        });
     }
-
+    Bitmap bitmap = null;
     Runnable getInfoRunnable = new Runnable() {
         @Override
         public void run() {
             Message m = new Message();
-            m.what = 1;
-            getInfoHandler.sendMessage(m);
+            JsonObject user = client.getUserInfo();
+            Log.i("u:", user.toString());
+            if(user != null){
+                Bundle b = new Bundle();
+                if(!user.get("nickname").toString().equals("null"))
+                    b.putString("nickname", user.get("nickname").getAsString());
+                if(user.get("gender").getAsString().equals("true")){
+                    b.putString("gender", "男");
+                }else{
+                    b.putString("gender", "女");
+                }
+
+                if(!user.get("desc").toString().equals("null"))
+                    b.putString("signature",user.get("desc").getAsString());
+                else{
+                    b.putString("signature","签名");
+                }
+                if(user.get("image")!=null){
+                    bitmap = BitmapTool.returnBitMap(user.get("image").getAsString());
+                }
+                m.setData(b);
+                m.what = 1;
+                getInfoHandler.sendMessage(m);
+            }
         }
     };
     Handler getInfoHandler = new Handler(){
@@ -191,7 +243,13 @@ public class SelfFragment extends Fragment {
             super.handleMessage(msg);
             switch (msg.what){
                 case 1:
-
+                    Bundle b = msg.getData();
+                    user_name.setText(b.getString("nickname"));
+                    user_gender.setText((b.getString("gender")));
+                    user_info.setText(b.getString("signature"));
+                    if(bitmap!=null){
+                        user_image.setImageBitmap(bitmap);
+                    }
                     break;
             }
         }

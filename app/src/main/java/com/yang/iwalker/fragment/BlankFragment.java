@@ -1,5 +1,6 @@
 package com.yang.iwalker.fragment;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,15 +16,17 @@ import android.widget.Toast;
 
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.yang.iwalker.BitmapTool;
 import com.yang.iwalker.Location;
+import com.yang.iwalker.NetWork.DoOkHttp;
 import com.yang.iwalker.R;
 import com.yang.iwalker.Weather;
 import com.yang.iwalker.adapter.HomeAdapter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class BlankFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -37,6 +40,7 @@ public class BlankFragment extends Fragment {
 
     TextView location;
     TextView self_weather;
+    DoOkHttp client;
 
     public BlankFragment() {
         // Required empty public constructor
@@ -84,6 +88,7 @@ public class BlankFragment extends Fragment {
         initEditText();
         new Thread(displayLocation).start();
         new Thread(displayWhether).start();
+        client = new DoOkHttp();
         return rootView;
     }
 
@@ -121,7 +126,7 @@ public class BlankFragment extends Fragment {
     Runnable displayWhether = new Runnable() {
         @Override
         public void run() {
-            while(location_info.city.equals("")){
+            while(location_info == null || location_info.city.equals("")){
             }
             //showWhether();
             Weather w = new Weather(location_info.city);
@@ -146,61 +151,59 @@ public class BlankFragment extends Fragment {
     public void initEditText(){
         //searchView = rootView.findViewById(R.id.ic_search);
     }
-
+    RecyclerView recycle;
+    HomeAdapter adatper;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        RecyclerView recycle = getActivity().findViewById(R.id.recycle_home);
+        recycle = getActivity().findViewById(R.id.recycle_home);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recycle.setLayoutManager(layoutManager);
-        List<Map<String, Object>> datas=new ArrayList<>();
-        //
-        for(int i=0;i<20;i++)
-        {
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("dynamicID", "1");
-            map.put("friendID", "蔡徐坤");
-            map.put("content", "今天是个上分的好日子");
-            map.put("textdate", "5月21日");
-            map.put("textlike", "10");
-            map.put("textlocation", "武汉市");
-            map.put("radiolike", "0");
 
-            //map.put("image", )
-            datas.add(map);
-        }
+        new Thread(infoRunnable).start();
 
-        HomeAdapter adatper=new HomeAdapter(datas, getContext());
-        recycle.setAdapter(adatper);
+
     }
-}
-
-    /*public Bitmap returnBitMap(final String url) {
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                URL imageurl = null;
-
-                try {
-                    imageurl = new URL(url);
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    HttpURLConnection conn = (HttpURLConnection) imageurl.openConnection();
-                    conn.setDoInput(true);
-                    conn.connect();
-                    InputStream is = conn.getInputStream();
-                    bitmap = BitmapFactory.decodeStream(is);
-                    is.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
+    JsonArray datas;
+    List<Bitmap> list;
+    Runnable infoRunnable = new Runnable() {
+        @Override
+        public void run() {
+            datas = client.getAllActivity("20", "0");
+            list = new ArrayList<>();
+            for(int i =0;i < datas.size();i++){
+                JsonObject o = datas.get(i).getAsJsonObject();
+                if(!o.get("images").isJsonNull()){
+                    JsonArray jArray = o.get("images").getAsJsonArray();
+                    if(jArray.size()>0){
+                        JsonObject j = jArray.get(0).getAsJsonObject();
+                        Bitmap b = BitmapTool.returnBitMap(j.get("image").getAsString());
+                        list.add(b);
+                    }else{
+                        list.add(null);
+                    }
+                } else{
+                    list.add(null);
                 }
             }
-        }).start();
+            Message m =new Message();
+            m.what = 1;
+            infoHandler.sendMessage(m);
+        }
+    };
 
-        return bitmap;
-    }*/
+    Handler infoHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case 1:
+                    adatper = new HomeAdapter(datas, getContext(), list, client);
+                    recycle.setAdapter(adatper);
+            }
+            super.handleMessage(msg);
+        }
+    };
+}
+

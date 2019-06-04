@@ -1,5 +1,6 @@
 package com.yang.iwalker;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -12,14 +13,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.yang.iwalker.NetWork.DoOkHttp;
 import com.yang.iwalker.adapter.CommentAdapter;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.yang.iwalker.adapter.HomeAdapter;
 
 public class CommentActivity extends AppCompatActivity {
+    DoOkHttp client;
     String dynamicID;
 
     TextView name;
@@ -37,16 +38,29 @@ public class CommentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment);
         Bundle bundle = getIntent().getExtras();
-        String dynamicID = bundle.getString("dynamicID");
-        new Thread(dynamicInfoRunnable).start();
+        dynamicID = bundle.getString("dynamicID");
         initInfo();
         initButtonClick();
+        client = new DoOkHttp();
+        new Thread(dynamicInfoRunnable).start();
     }
+
+    JsonObject dynamic;
+    JsonArray commentsdatas;
+    Bitmap bitmap = null;
 
     private Runnable dynamicInfoRunnable = new Runnable() {
         @Override
         public void run() {
-            //
+            dynamic = client.getActivityInfo(dynamicID);
+            commentsdatas = client.getCommit(dynamicID, "0", "10");
+            if(!dynamic.get("images").isJsonNull()) {
+                JsonArray jArray = dynamic.get("images").getAsJsonArray();
+                if (jArray.size() > 0) {
+                    JsonObject j = jArray.get(0).getAsJsonObject();
+                    bitmap = BitmapTool.returnBitMap(j.get("image").getAsString());
+                }
+            }
             Message m = new Message();
             m.what = 1;
             dynamicHandler.sendMessage(m);
@@ -55,19 +69,37 @@ public class CommentActivity extends AppCompatActivity {
     Handler dynamicHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
+            LinearLayoutManager layoutManager;
+            CommentAdapter cAdapter;
             switch (msg.what){
                 case 1:
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+                    name.setText(dynamic.get("userName").getAsString());
+
+                    String l = dynamic.get("locationName").getAsString();
+                    String location1 = l.split(",")[3];
+                    String s = location1.substring(0, location1.length()-1);
+                    location.setText(s);
+
+                    String d = HomeAdapter.stampToDate(dynamic.get("createTime").getAsString());
+                    date.setText(d);
+
+                    String c = dynamic.get("content").getAsString();
+                    content.setText(c);
+
+                    if(bitmap != null)
+                        image.setImageBitmap(bitmap);
+
+                    layoutManager = new LinearLayoutManager(getApplicationContext());
                     commentlist.setLayoutManager(layoutManager);
-                    List<Map<String, Object>> datas = new ArrayList<>();
-                    for(int i=0;i<5;i++){
-                        Map<String, Object> map = new HashMap<String, Object>();
-                        map.put("name", "cxk");
-                        map.put("info", "哈哈哈哈啊");
-                        datas.add(map);
-                    }
-                    CommentAdapter cAdapter = new CommentAdapter(datas);
+                    cAdapter = new CommentAdapter(commentsdatas);
                     commentlist.setAdapter(cAdapter);
+                    break;
+                case 2:
+                    layoutManager = new LinearLayoutManager(getApplicationContext());
+                    commentlist.setLayoutManager(layoutManager);
+                    cAdapter = new CommentAdapter(commentsdatas);
+                    commentlist.setAdapter(cAdapter);
+                    break;
             }
             super.handleMessage(msg);
         }
@@ -87,7 +119,22 @@ public class CommentActivity extends AppCompatActivity {
         btn_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String s = edit_comment.getText().toString();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        String s = edit_comment.getText().toString();
+                        String status = client.addCommit(s, dynamicID);
+                        if(status.equals("0")){
+                            commentsdatas = client.getCommit(dynamicID, "0", "10");
+                            Message msg = new Message();
+                            msg.what = 2;
+                            dynamicHandler.sendMessage(msg);
+                        }
+                        else{
+
+                        }
+                    }
+                }).start();
             }
         });
 

@@ -30,15 +30,15 @@
             />
     </RelativeLayout>
     <!-- 显示图片 -->
-    <view class="android.support.v7.app.AlertController$RecycleListView"
+    <android.support.v7.widget.RecyclerView
         android:layout_marginTop="60dp"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:scrollbars="vertical"
         android:id="@+id/fri_info_list"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-    </view>
+    </android.support.v7.widget.RecyclerView>
 </RelativeLayout>

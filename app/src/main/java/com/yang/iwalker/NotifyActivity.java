@@ -1,30 +1,31 @@
 package com.yang.iwalker;
 
-import android.app.Activity;
-import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.xuexiang.xui.utils.StatusBarUtils;
-import com.yang.iwalker.adapter.FriendsAdapter;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.yang.iwalker.NetWork.DoOkHttp;
 import com.yang.iwalker.adapter.NotifyAdapter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 public class NotifyActivity extends AppCompatActivity {
-
+    DoOkHttp client;
     private RecyclerView recycle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.friend_infor);
-
+        client = new DoOkHttp();
         initInfo();
     }
 
@@ -32,18 +33,46 @@ public class NotifyActivity extends AppCompatActivity {
         recycle = findViewById(R.id.fri_info_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recycle.setLayoutManager(layoutManager);
-        List<Map<String, Object>> datas=new ArrayList<>();
-        for(int i=0;i<20;i++){
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("friendName", i);
-            map.put("friendName", "蔡徐坤");
-            map.put("info", "唱跳rap篮球");
-            //map.put("image", "5月21日");
 
-            datas.add(map);
-        }
-        NotifyAdapter adatper = new NotifyAdapter(datas);
-        recycle.setAdapter(adatper);
+        new Thread(infoRunnable).start();
     }
 
+    JsonArray datas;
+    List<Bitmap> list;
+    Runnable infoRunnable = new Runnable() {
+        @Override
+        public void run() {
+            datas = client.showRequest();
+            list = new ArrayList<>();
+            if(datas.size()>0){
+
+                for(int i =0;i < datas.size();i++){
+                    JsonObject o = datas.get(i).getAsJsonObject();
+                    if(!o.get("image").isJsonNull()){
+                        Bitmap b = BitmapTool.returnBitMap(o.get("image").getAsString());
+                        list.add(b);
+                    }
+                    else{
+                        Bitmap b = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.logo);
+                        list.add(b);
+                    }
+                }
+                Message m = new Message();
+                m.what = 1;
+                mHandler.sendMessage(m);
+            }
+        }
+    };
+    Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case 1:
+                    NotifyAdapter adatper = new NotifyAdapter(datas, list, client);
+                    recycle.setAdapter(adatper);
+                    break;
+            }
+            super.handleMessage(msg);
+        }
+    };
 }

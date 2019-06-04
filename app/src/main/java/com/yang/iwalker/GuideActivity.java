@@ -34,7 +34,7 @@ public class GuideActivity extends BaseGuideActivity {
 
     @Override
     protected Class<? extends Activity> getSkipClass() {
-        return TestActivity.class;
+        return LoginActivity.class;
     }
 
     @TargetApi(23)

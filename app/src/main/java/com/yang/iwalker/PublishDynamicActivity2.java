@@ -12,12 +12,19 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
+import com.yang.iwalker.NetWork.DoOkHttp;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PublishDynamicActivity2 extends AppCompatActivity{
     /** 使用照相机拍照获取图片 */
@@ -29,14 +36,21 @@ public class PublishDynamicActivity2 extends AppCompatActivity{
     private Uri takePhotouri;
     Location location;
     ImageView iv;
+    ImageView iv2;
     TextView tv;
     TextView back;
+    Button publish;
+    DoOkHttp client;
+    EditText editText;
+    boolean flat = false;
+    Bitmap photo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.publish_dynamic_onepic);
         iv = findViewById(R.id.add_one_pic);
+        iv2 = findViewById(R.id.add_one_pic_img);
         iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,6 +67,9 @@ public class PublishDynamicActivity2 extends AppCompatActivity{
                 finish();
             }
         });
+        initButton();
+        editText = findViewById(R.id.editText1);
+        client = new DoOkHttp();
         new Thread(loc_run).start();
     }
 
@@ -98,14 +115,13 @@ public class PublishDynamicActivity2 extends AppCompatActivity{
                 break;
             case RESULT_REQUEST_CODE :
                 if (data != null) {
-                    //Log.d("图片路径",data.getData().toString());
-                    //picPath = getPathByUri4kitkat(getApplicationContext(),data.getData());
-                    //Log.d("图片路径啊啊啊啊啊啊",picPath);
                     Bundle extras = data.getExtras();
-                    Bitmap photo = extras.getParcelable("data");
+                    photo = extras.getParcelable("data");
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     photo.compress(Bitmap.CompressFormat.JPEG, 75, stream);// (0 - 100)压缩文件
                     iv.setImageBitmap(photo);
+                    iv2.setVisibility(View.INVISIBLE);
+                    flat = true;
                 }
                 break;
         }
@@ -146,5 +162,72 @@ public class PublishDynamicActivity2 extends AppCompatActivity{
         intent.putExtra("return-data", true);
         startActivityForResult(intent, RESULT_REQUEST_CODE);
     }
+    public void initButton(){
+        publish = findViewById(R.id.publish);
+        publish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        List<String> l = new ArrayList<>();
+                        l.add(location.country);
+                        l.add(location.province);
+                        l.add(location.city);
+                        l.add(location.district);
+                        JsonObject object = client.createActivity(editText.getText().toString(), location.latitude, location.longitude, l.toString());
+                        if(!object.isJsonNull()){
+                            String id = object.get("id").getAsString();
+                            if(flat){
+                                /*iv.setDrawingCacheEnabled(true);
+                                Bitmap b = iv.getDrawingCache();
+                                iv.setDrawingCacheEnabled(false);*/
 
+                                JsonObject object1 = client.createImage(BitmapTool.getFile(photo), id, "1");
+                                if(!object1.isJsonNull()){
+                                    Message msg = new Message();
+                                    msg.what = 1;
+                                    infoHandler.sendMessage(msg);
+                                }else{
+                                    Message msg = new Message();
+                                    msg.what = 2;
+                                    infoHandler.sendMessage(msg);
+                                }
+                            }else{
+                                Message msg = new Message();
+                                msg.what = 3;
+                                infoHandler.sendMessage(msg);
+                            }
+                        }else{
+                            Message msg = new Message();
+                            msg.what = 4;
+                            infoHandler.sendMessage(msg);
+                        }
+                    }
+                }).start();
+            }
+        });
+    }
+    Handler infoHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case 1:
+                    Toast.makeText(PublishDynamicActivity2.this, "发送成功！", Toast.LENGTH_SHORT);
+                    finish();
+                    break;
+                case 2:
+                    Toast.makeText(PublishDynamicActivity2.this, "图片发送失败！", Toast.LENGTH_SHORT);
+                    break;
+                case 3:
+                    Toast.makeText(PublishDynamicActivity2.this, "发送成功！", Toast.LENGTH_SHORT);
+                    finish();
+                    break;
+                case 4:
+                    Toast.makeText(PublishDynamicActivity2.this, "发送失败！", Toast.LENGTH_SHORT);
+                    break;
+            }
+            super.handleMessage(msg);
+        }
+    };
 }

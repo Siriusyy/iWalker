@@ -3,6 +3,8 @@ package com.yang.iwalker;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -70,7 +72,7 @@ public class LoginActivity extends Activity {
         }
         //处理返回的信息
         String status = client.login(username, password);
-        client.showFriends();
+        //client.showFriends();
         if(status.equals("0")){
             Intent intent = new Intent(LoginActivity.this, TestActivity.class);
             Bundle bundle = new Bundle();
@@ -79,11 +81,26 @@ public class LoginActivity extends Activity {
             startActivity(intent);
             finish();
         }else{
-            et_username.setText("");
-            et_password.setText("");
+            Message m = new Message();
+            m.what = 1;
+            infoHandler.sendMessage(m);
+            //et_username.setText("");
+            //et_password.setText("");
         }
     }
-
+    Handler infoHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case 1:
+                    et_username.setText("");
+                    et_password.setText("");
+                    Toast.makeText(getApplicationContext(),"账号或密码错误", Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        }
+    };
     /*public void checkAndWrite(String username, String password){
         File file = new File(this.getCacheDir(),"user.dat");
 

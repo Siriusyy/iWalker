@@ -1,8 +1,6 @@
 package com.yang.iwalker.adapter;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,20 +8,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.yang.iwalker.CommentActivity;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.yang.iwalker.NetWork.DoOkHttp;
 import com.yang.iwalker.R;
 
 import java.util.List;
-import java.util.Map;
 
 public class NotifyAdapter extends RecyclerView.Adapter <NotifyAdapter.ViewHolder>  {
-    List<Map<String, Object>> datas;
+    JsonArray datas;
+    List<Bitmap> list;
+    DoOkHttp client;
 
-    public NotifyAdapter(List<Map<String, Object>> datas) {
+    public NotifyAdapter(JsonArray datas, List<Bitmap> list, DoOkHttp client) {
         this.datas = datas;
+        this.list = list;
+        this.client = client;
     }
     static class ViewHolder extends RecyclerView.ViewHolder {
         String friend;
@@ -61,13 +63,33 @@ public class NotifyAdapter extends RecyclerView.Adapter <NotifyAdapter.ViewHolde
         holder.addFriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        String status = client.comfirmFriends(holder.friend);
+                        if(status.equals("0")){
 
+                        }
+                    }
+                }).start();
+                holder.addFriends.setEnabled(false);
+                holder.reject.setEnabled(false);
             }
         });
         holder.reject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        String status = client.rejectFriends(holder.friend);
+                        if(status.equals("0")){
 
+                        }
+                    }
+                }).start();
+                holder.addFriends.setEnabled(false);
+                holder.reject.setEnabled(false);
             }
         });
         return holder;
@@ -80,12 +102,21 @@ public class NotifyAdapter extends RecyclerView.Adapter <NotifyAdapter.ViewHolde
      */
     @Override
     public void onBindViewHolder(@NonNull NotifyAdapter.ViewHolder viewHolder, int i) {
-        //viewHolder.friendID.setText(datas.get(i).toString());
-        viewHolder.friend = datas.get(i).get("friendName").toString();
-        viewHolder.friendName.setText(datas.get(i).get("friendName").toString());
-        viewHolder.info.setText(datas.get(i).get("info").toString());
-        //viewHolder.image.setImageBitmap();
+        JsonObject object = datas.get(i).getAsJsonObject();
+        viewHolder.friend = object.get("userName").getAsString();
+        if(!object.get("nickname").isJsonNull()){
+            viewHolder.friendName.setText(object.get("nickname").getAsString()+"("+viewHolder.friend+")");
+        }else{
+            viewHolder.friendName.setText("未命名用戶"+"("+viewHolder.friend+")");
+        }
 
+        if(!object.get("desc").isJsonNull()){
+            viewHolder.info.setText(object.get("desc").getAsString());
+        } else{
+            viewHolder.info.setText("");
+        }
+
+        viewHolder.image.setImageBitmap(list.get(i));
     }
 
     @Override

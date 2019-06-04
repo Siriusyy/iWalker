@@ -1,6 +1,8 @@
 package com.yang.iwalker;
 
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -89,20 +91,38 @@ public class RegActivity extends AppCompatActivity implements RadioGroup.OnCheck
 
         //处理返回的信息
         //gist为临时变量，前后端统一时修改。
-        String status = client.regiest(userName, password1);
+        String status = client.regiest(userName, password1, nickname, gender);
         if(status.equals("0")){
+            Message m = new Message();
+            m.what = 0;
+            infoHandler.sendMessage(m);
             Intent intent = new Intent(RegActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
+
         }else{
-            et_username.setText("");
-            et_password1.setText("");
-            et_password2.setText("");
-            et_nickname.setText("");
-            Toast.makeText(this, "注册失败", Toast.LENGTH_SHORT).show();
+            Message m = new Message();
+            m.what = 1;
+            infoHandler.sendMessage(m);
         }
     }
-
+    Handler infoHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case 0:
+                    Toast.makeText(getApplicationContext(), "注册成功", Toast.LENGTH_SHORT).show();
+                    break;
+                case 1:
+                    et_username.setText("");
+                    et_password1.setText("");
+                    et_password2.setText("");
+                    et_nickname.setText("");
+                    Toast.makeText(getApplicationContext(), "注册失败", Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
     public void onCheckedChanged(RadioGroup group, int chenkedId){
         switch (chenkedId){
             case R.id.radioButton4:

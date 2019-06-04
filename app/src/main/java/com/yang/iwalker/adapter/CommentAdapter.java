@@ -7,22 +7,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.yang.iwalker.R;
 
-import java.util.List;
-import java.util.Map;
-
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHolder> {
-
-    List<Map<String, Object>> datas;
-    public CommentAdapter(List<Map<String, Object>> datas) {
+    JsonArray datas;
+    public CommentAdapter(JsonArray datas) {
         this.datas = datas;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView name;
         TextView comments;
-
         View view;
 
         public ViewHolder(@NonNull final View itemView) {
@@ -55,8 +52,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
      */
     @Override
     public void onBindViewHolder(@NonNull CommentAdapter.ViewHolder viewHolder, int i) {
-        viewHolder.name.setText(datas.get(i).get("name").toString()+":");
-        viewHolder.comments.setText(datas.get(i).get("info").toString());
+        JsonObject object = datas.get(i).getAsJsonObject();
+
+        if(!object.get("userName").isJsonNull()){
+            viewHolder.name.setText(object.get("userName").getAsString()+":");
+        }
+        viewHolder.comments.setText(object.get("content").getAsString());
     }
 
     @Override
