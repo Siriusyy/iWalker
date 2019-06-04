@@ -13,7 +13,7 @@
             android:id="@+id/back"
             android:layout_width="60dp"
             android:layout_height="match_parent"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:gravity="center"
             android:text="取消"
             android:textColor="@color/xui_config_color_black"
@@ -24,18 +24,18 @@
             android:id="@+id/publish_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:gravity="center"
             android:textColor="@color/xui_config_color_black"
             android:text="修改个人信息" />
         <Button
             android:id="@+id/publish"
             android:layout_width="70dp"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:textSize="20sp"
+            android:layout_marginTop="10dp"
+            android:textSize="16sp"
             android:gravity="center"
             android:textColor="@color/xui_config_color_black"
             android:background="@drawable/publish_button"
@@ -48,122 +48,135 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
-        <TextView
-            android:id="@+id/user_image_text"
-            android:layout_width="90dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="60dp"
-            android:background="@drawable/self_change_text"
-            android:text="头像"
-            android:gravity="center"
-            android:textSize="20sp" />
-        <TextView
-            android:id="@+id/user_image_now"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="60dp"
-            android:background="@drawable/self_change_text"
-            android:gravity="top"
-            android:layout_toRightOf="@+id/user_image_text"
-            android:textSize="20sp" />
-        <ImageView
-            android:id="@+id/user_image_blank"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="65dp"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@+id/user_image_text"
-            android:text="头像"
-            android:gravity="center"
-            android:background="@drawable/default_avatar"
-            android:textSize="20sp"  />
-        <ImageView
-            android:id="@+id/user_image_change_btn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="65dp"
-            android:layout_marginRight="15dp"
-            android:text="头像"
-            android:gravity="center"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/img_change_32px"
-            android:textSize="20sp"  />
+
         <TextView
             android:id="@+id/user_nickname_text"
             android:layout_width="90dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="130dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="60dp"
             android:background="@drawable/self_change_text"
             android:text="昵称"
             android:gravity="center"
-            android:textSize="20sp" />
-        <TextView
+            android:textSize="16sp" />
+
+        <EditText
             android:id="@+id/user_nickname_now"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="130dp"
-            android:background="@color/xui_config_color_white"
-            android:gravity="left"
+            android:layout_height="50dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="60dp"
+            android:layout_toEndOf="@+id/user_nickname_text"
             android:layout_toRightOf="@+id/user_nickname_text"
-            android:textSize="20sp" />
+            android:background="@color/xui_config_color_white"
+            android:gravity="left|center"
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/user_gender_text"
             android:layout_width="90dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="200dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="115dp"
             android:background="@drawable/self_change_text"
             android:text="性别"
             android:gravity="center"
-            android:textSize="20sp" />
-        <TextView
+            android:textSize="16sp" />
+
+        <RadioGroup
             android:id="@+id/user_gender_now"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="200dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="115dp"
+            android:orientation="horizontal"
             android:background="@color/xui_config_color_white"
             android:gravity="left"
             android:layout_toRightOf="@+id/user_gender_text"
-            android:textSize="20sp" />
+            android:textSize="16sp">
+            <RadioButton
+                android:id="@+id/user_gender_woman"
+                android:layout_width="60dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="0dp"
+                android:background="@color/xui_config_color_white"
+                android:gravity="left|center"
+                android:text="女"
+
+                android:textSize="16sp" />
+            <RadioButton
+                android:id="@+id/user_gender_man"
+                android:layout_width="60dp"
+                android:layout_height="50dp"
+                android:background="@color/xui_config_color_white"
+                android:gravity="left|center"
+                android:layout_marginTop="0dp"
+                android:text="男"
+
+                android:textSize="16sp" />
+        </RadioGroup>
 
         <TextView
             android:id="@+id/user_password_text"
             android:layout_width="90dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="270dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="170dp"
             android:background="@drawable/self_change_text"
             android:text="新密码"
             android:gravity="center"
-            android:textSize="20sp" />
-        <TextView
+            android:textSize="16sp" />
+
+        <EditText
             android:id="@+id/user_password_now"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="270dp"
-            android:background="@color/xui_config_color_white"
-            android:gravity="left"
-            android:inputType="textPassword"
+            android:layout_height="50dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="170dp"
             android:layout_toRightOf="@+id/user_password_text"
-            android:textSize="20sp" />
+            android:background="@color/xui_config_color_white"
+            android:gravity="left|center"
+            android:inputType="textPassword"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/user_repassword_text"
             android:layout_width="90dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="340dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="225dp"
             android:background="@drawable/self_change_text"
             android:text="重复密码"
             android:gravity="center"
-            android:textSize="20sp" />
-        <TextView
+            android:textSize="16sp" />
+
+        <EditText
             android:id="@+id/user_repassword_now"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="340dp"
-            android:background="@color/xui_config_color_white"
-            android:gravity="left"
-            android:inputType="textPassword"
+            android:layout_height="50dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="225dp"
             android:layout_toRightOf="@+id/user_repassword_text"
-            android:textSize="20sp" />
+            android:background="@color/xui_config_color_white"
+            android:gravity="left|center"
+            android:inputType="textPassword"
+            android:textSize="16sp" />
+        <TextView
+            android:id="@+id/user_desc_text"
+            android:layout_width="90dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="280dp"
+            android:background="@drawable/self_change_text"
+            android:text="个性签名"
+            android:gravity="center"
+            android:textSize="16sp" />
 
+        <EditText
+            android:id="@+id/user_desc_now"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="280dp"
+            android:layout_toEndOf="@+id/user_nickname_text"
+            android:layout_toRightOf="@+id/user_nickname_text"
+            android:background="@color/xui_config_color_white"
+            android:gravity="left|center"
+            android:textSize="12sp" />
     </RelativeLayout>
 </RelativeLayout>

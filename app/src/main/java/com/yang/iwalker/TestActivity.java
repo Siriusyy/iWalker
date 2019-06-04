@@ -45,6 +45,7 @@ public class TestActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.mainpage);
         initView();
 
@@ -56,8 +57,9 @@ public class TestActivity extends AppCompatActivity {
         mFragmentSparseArray = new SparseArray<>();
         mFragmentSparseArray.append(R.id.home_tab, BlankFragment.newInstance(""));
         mFragmentSparseArray.append(R.id.friends_tab, FriendsFragment.newInstance(""));
-        mFragmentSparseArray.append(R.id.map_tab, MapFragment.newInstance("地图"));
         mFragmentSparseArray.append(R.id.self_tab, SelfFragment.newInstance(""));
+        mFragmentSparseArray.append(R.id.map_tab, MapFragment.newInstance(""));
+
         mTabRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -72,7 +74,7 @@ public class TestActivity extends AppCompatActivity {
         findViewById(R.id.sign_iv).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(TestActivity.this, TimeLineActivity.class));
+                startActivity(new Intent(TestActivity.this, FriendInfoActivity.class));
             }
         });
 

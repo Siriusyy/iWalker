@@ -10,6 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <com.baidu.mapapi.map.MapView
+            android:id="@+id/view_map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="0dp"></com.baidu.mapapi.map.MapView>
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
@@ -33,20 +40,18 @@
                 android:id="@+id/navi_search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <ListView
+                android:id="@+id/sug_listview"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/navi_search" />
 
         </android.support.constraint.ConstraintLayout>
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
     </android.support.constraint.ConstraintLayout>
 
     <TextView

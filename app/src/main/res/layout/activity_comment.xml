@@ -75,7 +75,7 @@
         android:layout_marginStart="8dp"
 
         android:layout_marginTop="8dp"
-        android:text="评论列表 99"
+        android:text="评论列表"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
@@ -90,6 +90,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="0dp"
+        android:layout_height="8dp"
+        android:background="@color/xui_config_color_white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dynamic_info_img"
+        tools:layout_editor_absoluteY="134dp" />
+
+    <ImageView
+        android:id="@+id/dynamic_info_img"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_content"
+        app:srcCompat="@drawable/bg_button_coloring" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout4"
@@ -125,15 +145,5 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
-
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="0dp"
-        android:layout_height="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/xui_config_color_white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_content" />
 
 </android.support.constraint.ConstraintLayout>

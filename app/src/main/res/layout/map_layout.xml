@@ -2,21 +2,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <com.baidu.mapapi.map.MapView
-        android:id="@+id/map_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clickable="true"
-        >
-    </com.baidu.mapapi.map.MapView>
-    
-    <Button
-        android:id="@+id/search"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:text="搜索"
-        android:textSize="20sp"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="30dp"
-        android:layout_marginRight="30dp"/>
+
 </RelativeLayout>
