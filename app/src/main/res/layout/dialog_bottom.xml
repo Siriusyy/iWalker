@@ -6,50 +6,28 @@
     android:layout_height="wrap_content"
     android:background="@color/xui_config_color_white"
     android:orientation="vertical">
-
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="140dp">
     <TextView
         android:id="@+id/sug_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:textSize="30sp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:textSize="25sp"
         android:text="黄鹤楼" />
     <TextView
         android:id="@+id/sug_loc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/sug_name"
-        android:layout_marginRight="10dp"
+        android:layout_marginRight="20dp"
         android:text="loc_sug"
         android:layout_alignParentRight="true"
-        android:textSize="20sp"/>
-    <TextView
-        android:id="@+id/sug_daka_num"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="打卡人数："
-        android:textSize="20sp"
-        android:layout_below="@id/sug_name"
-        android:layout_alignLeft="@id/sug_name"
-        android:layout_marginTop="40dp"/>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_below="@id/sug_daka_num"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="最新动态："
-            android:textSize="15sp"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="今天是个上分的好日子！"
-            android:layout_centerInParent="true"/>
+        android:layout_marginTop="20dp"
+        android:textSize="16sp"/>
     </RelativeLayout>
+
 
 </RelativeLayout>
