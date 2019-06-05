@@ -193,7 +193,7 @@ public class DoOkHttp {
             FormBody body = new FormBody.Builder()
                     .add("userName", username)
                     .add("password", password)
-                    .add("nickName", nickname)
+                    .add("nickname", nickname)
                     .add("gender", String.valueOf(gender))
                     .build();
             Request request = new Request.Builder()

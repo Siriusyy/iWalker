@@ -1,5 +1,6 @@
 package com.yang.iwalker;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -77,7 +79,7 @@ public class CommentActivity extends AppCompatActivity {
 
                     String l = dynamic.get("locationName").getAsString();
                     String location1 = l.split(",")[3];
-                    String s = location1.substring(0, location1.length()-1);
+                    String s = location1.substring(1, location1.length()-1);
                     location.setText(s);
 
                     String d = HomeAdapter.stampToDate(dynamic.get("createTime").getAsString());
@@ -135,6 +137,12 @@ public class CommentActivity extends AppCompatActivity {
                         }
                     }
                 }).start();
+                edit_comment.setText("");
+                edit_comment.clearFocus();
+                InputMethodManager manager = ((InputMethodManager)getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE));
+                if(manager!=null){
+                    manager.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                }
             }
         });
 

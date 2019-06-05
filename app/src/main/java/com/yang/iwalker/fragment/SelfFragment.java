@@ -215,20 +215,22 @@ public class SelfFragment extends Fragment {
             Log.i("u:", user.toString());
             if(user != null){
                 Bundle b = new Bundle();
-                if(!user.get("nickname").toString().equals("null"))
+                if(!user.get("nickname").isJsonNull())
                     b.putString("nickname", user.get("nickname").getAsString());
+                else
+                    b.putString("nickname", "未命名用户");
                 if(user.get("gender").getAsString().equals("true")){
                     b.putString("gender", "男");
                 }else{
                     b.putString("gender", "女");
                 }
 
-                if(!user.get("desc").toString().equals("null"))
+                if(!user.get("desc").isJsonNull())
                     b.putString("signature",user.get("desc").getAsString());
                 else{
                     b.putString("signature","签名");
                 }
-                if(user.get("image")!=null){
+                if(!user.get("image").isJsonNull()){
                     bitmap = BitmapTool.returnBitMap(user.get("image").getAsString());
                 }
                 m.setData(b);

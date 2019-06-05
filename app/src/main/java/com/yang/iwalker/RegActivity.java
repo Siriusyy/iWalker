@@ -21,7 +21,7 @@ public class RegActivity extends AppCompatActivity implements RadioGroup.OnCheck
     private EditText et_nickname;
     private RadioGroup rg_gender;
     private String userName,password1, password2, nickname;
-    private boolean gender;
+    private boolean gender = true;
     private Button btn_reg;
     //private List<UserBean> list;
     private DoOkHttp client;

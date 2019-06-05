@@ -139,7 +139,7 @@ public class HomeAdapter extends RecyclerView.Adapter <HomeAdapter.ViewHolder> {
         viewHolder.text_like.setText(object.get("likeNum").getAsString());
         String li = object.get("locationName").getAsString();
         String[] list = li.split(",");
-        String s = list[3].substring(0, list[3].length()-1);
+        String s = list[3].substring(1, list[3].length()-1);
         viewHolder.text_location.setText(s);
 
         if(object.get("like").getAsString().equals("true")){

@@ -4,18 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/xui_config_color_white"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="140dp">
+        android:layout_height="120dp"
+        android:background="@drawable/bg_square">
     <TextView
         android:id="@+id/sug_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
-        android:textSize="25sp"
+        android:textSize="23sp"
         android:text="黄鹤楼" />
     <TextView
         android:id="@+id/sug_loc"

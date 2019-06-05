@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="5dp"
     android:background="@color/xui_config_color_white"
-    android:paddingTop="3dp">
+    >
 
     <RadioButton
         android:id="@+id/radio_like"
@@ -31,10 +31,11 @@
     <TextView
         android:id="@+id/text_like"
         android:layout_width="30dp"
-        android:layout_height="20dp"
+        android:layout_height="25dp"
         android:layout_marginEnd="10dp"
         android:text="999"
-        android:textSize="12sp"
+        android:textSize="10sp"
+        android:gravity="center|top"
         app:layout_constraintEnd_toStartOf="@+id/text_comments"
         app:layout_constraintTop_toBottomOf="@+id/radio_like" />
 
@@ -51,7 +52,7 @@
         android:gravity="start|top"
 
         android:maxLines="3"
-        android:minLines="1"
+        android:minLines="3"
         android:scrollbars="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,21 +62,21 @@
         android:id="@+id/text_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:gravity="left"
         android:text="武汉"
         android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fri_id" />
+        app:layout_constraintStart_toStartOf="@id/text_date"
+        app:layout_constraintTop_toBottomOf="@+id/text_date" />
 
     <TextView
         android:id="@+id/fri_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:text="蔡徐坤"
-        android:textSize="18sp"
+        android:textSize="20sp"
+        android:textColor="@color/xui_config_color_black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -83,7 +84,7 @@
         android:id="@+id/text_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="16dp"
         android:text="5月30日"
         android:textSize="12sp"
@@ -103,8 +104,8 @@
 
     <ImageView
         android:id="@+id/ic_comments"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_marginEnd="10dp"
         android:src="@mipmap/ic_comments"
         app:layout_constraintEnd_toStartOf="@+id/ic_forward"
@@ -112,8 +113,8 @@
 
     <ImageView
         android:id="@+id/ic_forward"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
         android:layout_marginEnd="20dp"
         android:src="@mipmap/ic_forward"
         app:layout_constraintEnd_toEndOf="parent"

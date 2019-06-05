@@ -91,17 +91,6 @@
             android:gravity="left"
             android:layout_toRightOf="@+id/user_gender_text"
             android:textSize="16sp">
-
-            <RadioButton
-                android:id="@+id/user_gender_man"
-                android:layout_width="60dp"
-                android:layout_height="50dp"
-                android:background="@color/xui_config_color_white"
-                android:gravity="left|center"
-                android:layout_marginTop="0dp"
-                android:text="男"
-                android:checked="true"
-                android:textSize="16sp" />
             <RadioButton
                 android:id="@+id/user_gender_woman"
                 android:layout_width="60dp"
@@ -112,6 +101,17 @@
                 android:text="女"
 
                 android:textSize="16sp" />
+            <RadioButton
+                android:id="@+id/user_gender_man"
+                android:layout_width="60dp"
+                android:layout_height="50dp"
+                android:background="@color/xui_config_color_white"
+                android:gravity="left|center"
+                android:layout_marginTop="0dp"
+                android:text="男"
+                android:checked="true"
+                android:textSize="16sp" />
+
         </RadioGroup>
 
         <TextView

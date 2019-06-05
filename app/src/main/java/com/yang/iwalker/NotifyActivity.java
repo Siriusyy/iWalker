@@ -8,6 +8,8 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.TextView;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -21,6 +23,7 @@ import java.util.List;
 public class NotifyActivity extends AppCompatActivity {
     DoOkHttp client;
     private RecyclerView recycle;
+    TextView back;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +36,13 @@ public class NotifyActivity extends AppCompatActivity {
         recycle = findViewById(R.id.fri_info_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recycle.setLayoutManager(layoutManager);
-
+        back = findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         new Thread(infoRunnable).start();
     }
 

@@ -205,5 +205,7 @@ public class BlankFragment extends Fragment {
             super.handleMessage(msg);
         }
     };
+
+
 }
 

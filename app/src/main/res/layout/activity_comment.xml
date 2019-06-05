@@ -4,8 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/xui_config_color_white"
     tools:context=".CommentActivity">
-
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/bg_title"/>
 
     <TextView
         android:id="@+id/fri_id"
@@ -14,7 +20,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="蔡徐坤"
-        android:textSize="18sp"
+        android:textColor="@color/xui_config_color_black"
+        android:textSize="21sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -25,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
 
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="18dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
         android:gravity="start|top"
@@ -34,7 +41,7 @@
 
         android:scrollbars="vertical"
         android:text="大家好，我是练习长达两年半的练习生蔡徐坤，我喜欢唱 跳 rap 篮球。music"
-        android:textSize="18sp"
+        android:textSize="17sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_location" />
@@ -43,12 +50,11 @@
         android:id="@+id/text_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:gravity="left|center"
         android:text="武汉"
         android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fri_id" />
+        app:layout_constraintStart_toStartOf="@id/text_date"
+        app:layout_constraintTop_toBottomOf="@+id/text_date" />/>
 
     <TextView
         android:id="@+id/text_date"
@@ -58,6 +64,7 @@
         android:layout_marginEnd="16dp"
         android:text="5月30日"
         android:textSize="12sp"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -84,6 +91,9 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
+
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -94,8 +104,11 @@
     <TextView
         android:id="@+id/textView8"
         android:layout_width="0dp"
-        android:layout_height="8dp"
-        android:background="@color/xui_config_color_white"
+        android:layout_height="2dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:background="@color/xui_config_color_gray_8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dynamic_info_img"
@@ -106,7 +119,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="13dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_content" />
 
@@ -122,8 +135,9 @@
         <EditText
             android:id="@+id/edit_comment"
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:layout_marginEnd="8dp"
+            android:paddingLeft="5dp"
             android:background="@drawable/bg_edittext"
             android:ems="10"
             android:hint="输入评论"

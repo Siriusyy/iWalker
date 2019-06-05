@@ -3,9 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/xui_config_color_white"
-    android:paddingTop="3dp">
+    android:layout_height="38dp"
+    android:background="@drawable/bg_com"
+    android:layout_marginTop="2dp"
+    >
 
     <TextView
         android:id="@+id/comment_info_name"
@@ -15,6 +16,7 @@
         android:layout_marginLeft="5dp"
         android:text="蔡徐坤："
         android:textSize="18sp"
+        android:textColor="@color/xui_config_color_dark_blue_gray"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -26,7 +28,6 @@
         android:layout_marginTop="3dp"
         android:text="123455"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/comment_info_name"
         app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>
