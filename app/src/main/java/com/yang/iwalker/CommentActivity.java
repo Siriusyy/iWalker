@@ -90,17 +90,21 @@ public class CommentActivity extends AppCompatActivity {
 
                     if(bitmap != null)
                         image.setImageBitmap(bitmap);
+                    if(commentsdatas!=null){
+                        layoutManager = new LinearLayoutManager(getApplicationContext());
+                        commentlist.setLayoutManager(layoutManager);
+                        cAdapter = new CommentAdapter(commentsdatas);
+                        commentlist.setAdapter(cAdapter);
+                    }
 
-                    layoutManager = new LinearLayoutManager(getApplicationContext());
-                    commentlist.setLayoutManager(layoutManager);
-                    cAdapter = new CommentAdapter(commentsdatas);
-                    commentlist.setAdapter(cAdapter);
                     break;
                 case 2:
-                    layoutManager = new LinearLayoutManager(getApplicationContext());
-                    commentlist.setLayoutManager(layoutManager);
-                    cAdapter = new CommentAdapter(commentsdatas);
-                    commentlist.setAdapter(cAdapter);
+                    if(commentsdatas!=null){
+                        layoutManager = new LinearLayoutManager(getApplicationContext());
+                        commentlist.setLayoutManager(layoutManager);
+                        cAdapter = new CommentAdapter(commentsdatas);
+                        commentlist.setAdapter(cAdapter);
+                    }
                     break;
             }
             super.handleMessage(msg);
