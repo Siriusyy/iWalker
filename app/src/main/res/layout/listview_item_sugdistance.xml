@@ -1,18 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="horizontal"
+    android:background="@color/xui_config_color_white"
     >
+    <ImageView
+        android:id="@+id/local"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="19dp"
+        android:layout_marginLeft="8dp"
+        android:background="@drawable/img_local_24px"/>
     <TextView
         android:id="@+id/locationInfo"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_toRightOf="@id/local"
+        android:layout_marginLeft="20dp"
+        android:text="5055\n55555"
+        android:textSize="16sp"
+        android:layout_marginTop="4dp"
+        android:gravity="left|center"
+        android:layout_height="60dp"
         />
     <TextView
         android:id="@+id/distanceInfo"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="60dp"
         android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:text="5055"
+        android:gravity="left|center"
+        android:textSize="15sp"
         />
 </RelativeLayout>

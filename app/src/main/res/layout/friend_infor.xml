@@ -20,13 +20,15 @@
             android:gravity="center"
             android:textColor="@color/xui_config_color_black"
             android:text="通知" />
-        <ImageView
+        <TextView
             android:id="@+id/back"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:text="取消"
+            android:textColor="@color/xui_config_color_black"
             android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/return_64px"
             />
     </RelativeLayout>
     <!-- 显示图片 -->

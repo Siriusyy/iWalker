@@ -81,13 +81,7 @@ public class FriendsFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         TitleBar titlebar = getActivity().findViewById(R.id.navi_friends);
 
-        titlebar.addAction(new TitleBar.ImageAction(R.drawable.ic_action_search2) {
-            @Override
-            public void performAction(View view) {
 
-                //Toast.makeText(getContext(),"搜索好友",Toast.LENGTH_SHORT).show();
-            }
-        });
         titlebar.addAction(new TitleBar.ImageAction(R.drawable.ic_action_add) {
             @Override
             public void performAction(View view) {
